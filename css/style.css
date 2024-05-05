@@ -5,6 +5,8 @@
 body {
     background: none;
     background-color: #f1f1f1c4;
+    position: relative;
+    height: 100%;
 }
 header,
 footer {
