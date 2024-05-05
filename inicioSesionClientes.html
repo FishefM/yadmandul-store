@@ -4,8 +4,8 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Inicio sesion clientes | Yadmandul store</title>
-    <link rel="stylesheet" type="text/css" href="inicioSesion.css" />
-    <link rel="icon" href="./logo_definitivo.png" type="image/png" />
+    <link rel="stylesheet" type="text/css" href="./css/inicioSesion.css" />
+    <link rel="icon" href="./assets/img/logo_definitivo.png" type="image/png" />
     <script
       src="https://kit.fontawesome.com/ecae724dfb.js"
       crossorigin="anonymous"
@@ -19,7 +19,9 @@
   <body>
     <header>
       <div class="title-container">
-        <a href="#"><img src="./logo_definitivo.png" alt="logo" /></a>
+        <a href="#"
+          ><img src="./assets/img/logo_definitivo.png" alt="logo"
+        /></a>
         <p>Yadmandul store</p>
       </div>
       <nav>
@@ -27,9 +29,9 @@
           <li><a href="#">Inicio</a></li>
           <li><a href="#">Productos</a></li>
           <li class="dropdown">
-            <a href="./inicioSesionClientes.html" class="user">
+            <a href="./assets/img/inicioSesionClientes.html" class="user">
               <img
-                src="./user.png"
+                src="./assets/img/user.png"
                 alt="User"
                 id="img-user"
               />&nbsp;&nbsp;&nbsp;[USER]
@@ -119,7 +121,7 @@
       <div class="welcome-container">
         <div class="login-welcome-container">
           <a href="#" id="logo-welcome"
-            ><img src="./logo_definitivo.png" alt="logo"
+            ><img src="./assets/img/logo_definitivo.png" alt="logo"
           /></a>
           <h1>¡Bienvenido!</h1>
           <br />
@@ -133,7 +135,7 @@
         </div>
         <div class="register-welcome-container">
           <a href="#" id="logo-welcome"
-            ><img src="./logo_definitivo.png" alt="logo"
+            ><img src="./assets/img/logo_definitivo.png" alt="logo"
           /></a>
           <h1>¡Hola!</h1>
           <br />
@@ -168,19 +170,22 @@
       <a href="./politicas.html">Políticas</a>
       <a href="./contacto.html">Contacto</a>
     </footer>
-    <script src="./scriptInicio.js"></script>
+    <script src="./js/scriptInicio.js"></script>
     <script type="text/javascript">
-      (function(d, t) {
-          var v = d.createElement(t), s = d.getElementsByTagName(t)[0];
-          v.onload = function() {
-            window.voiceflow.chat.load({
-              verify: { projectID: '65f68a50db58b04d7432cde3' },
-              url: 'https://general-runtime.voiceflow.com',
-              versionID: 'production'
-            });
-          }
-          v.src = "https://cdn.voiceflow.com/widget/bundle.mjs"; v.type = "text/javascript"; s.parentNode.insertBefore(v, s);
-      })(document, 'script');
+      (function (d, t) {
+        var v = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+        v.onload = function () {
+          window.voiceflow.chat.load({
+            verify: { projectID: "65f68a50db58b04d7432cde3" },
+            url: "https://general-runtime.voiceflow.com",
+            versionID: "production",
+          });
+        };
+        v.src = "https://cdn.voiceflow.com/widget/bundle.mjs";
+        v.type = "text/javascript";
+        s.parentNode.insertBefore(v, s);
+      })(document, "script");
     </script>
   </body>
 </html>
