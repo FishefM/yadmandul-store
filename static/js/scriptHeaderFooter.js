@@ -1,4 +1,4 @@
-fetch("inicioSesionClientes.html")
+fetch("/inicio_sesion")
   .then((response) => response.text())
   .then((html) => {
     let parser = new DOMParser();

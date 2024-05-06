@@ -50,6 +50,7 @@ create table productos(
     precio_prod double not null,
     cantidad_prod int not null,
     estado_prod boolean not null,
+    foto_prod varchar(255) not null, -- Quitar para la presentacion
     id_prov int not null,
     foreign key (id_prov) references proveedores(id_prov)
 ) engine = InnoDB;

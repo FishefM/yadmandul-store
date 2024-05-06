@@ -4,8 +4,16 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Contacto | Yadmandul store</title>
-    <link rel="stylesheet" type="text/css" href="./css/inicioSesion.css" />
-    <link rel="icon" href="./assets/img/logo_definitivo.png" type="image/png" />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{{url_for('static', filename='css/inicioSesion.css')}}"
+    />
+    <link
+      rel="icon"
+      href="{{url_for('static', filename='assets/img/logo_definitivo.png')}}"
+      type="image/png"
+    />
     <script
       src="https://kit.fontawesome.com/ecae724dfb.js"
       crossorigin="anonymous"
@@ -99,6 +107,6 @@
       </div>
     </section>
     <footer></footer>
-    <script src="./js/scriptHeaderFooter.js"></script>
+    <script src="{{url_for('static', filename='js/scriptHeaderFooter.js')}}"></script>
   </body>
 </html>

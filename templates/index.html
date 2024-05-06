@@ -3,19 +3,36 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" type="text/css" href="./css/inicioSesion.css" />
-    <link rel="icon" href="./assets/img/logo_definitivo.png" type="image/png" />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{{url_for('static', filename='css/inicioSesion.css')}}"
+    />
+    <link
+      rel="icon"
+      href="{{url_for('static', filename='assets/img/logo_definitivo.png')}}"
+      type="image/png"
+    />
     <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"
     />
-    <link rel="stylesheet" href="./css/style.css" />
-    <link rel="stylesheet" href="./css/slider.css" />
+    <link
+      rel="stylesheet"
+      href="{{url_for('static', filename='css/style.css')}}"
+    />
+    <link
+      rel="stylesheet"
+      href="{{url_for('static', filename='css/slider.css')}}"
+    />
     <script
       src="https://kit.fontawesome.com/ecae724dfb.js"
       crossorigin="anonymous"
     ></script>
-    <link rel="stylesheet" href="./css/products_carousel.css" />
+    <link
+      rel="stylesheet"
+      href="{{url_for('static', filename='css/products_carousel.css')}}"
+    />
     <title>Yadmandul Store</title>
   </head>
   <body>
@@ -239,65 +256,47 @@
           <input
             type="search"
             name="card-filter"
-            id="card-filter"
+            id="card-filter-bebidas"
             placeholder="Buscar"
           />
         </div>
 
         <div class="products">
+          {% for bebida in bebidas %}
           <div class="product bebidas">
-            <img src="./assets/img/product.png" alt="[PROD]" />
-            <p>PRODUCTreg4gctgct4vhv</p>
-            <h4>$$$</h4>
+            <img src="{{bebida.2}}" alt="{{bebida.0}}" />
+            <p>{{bebida.0}}</p>
+            <h4>$ {{bebida.1}}</h4>
             <a href="#">Comprar</a>
           </div>
-          <div class="product bebidas">
-            <img src="./assets/img/product.png" alt="[PROD]" />
-            <p>PRODUCTreg4gctgct4vhvfecfcgervgev</p>
-            <h4>$$$</h4>
+          {% endfor %}
+        </div>
+      </section>
+      <section id="dulces">
+        <div class="title-product-container">
+          <h1>Dulces</h1>
+          <input
+            type="search"
+            name="card-filter"
+            id="card-filter-dulces"
+            placeholder="Buscar"
+          />
+        </div>
+
+        <div class="products">
+          {% for dulce in dulces %}
+          <div class="product dulces">
+            <img src="{{dulce.2}}" alt="{{dulce.0}}" />
+            <p>{{dulce.0}}</p>
+            <h4>$ {{dulce.1}}</h4>
             <a href="#">Comprar</a>
           </div>
-          <div class="product bebidas">
-            <img src="./assets/img/product.png" alt="[PROD]" />
-            <p>PRODUCT</p>
-            <h4>$$$</h4>
-            <a href="#">Comprar</a>
-          </div>
-          <div class="product bebidas">
-            <img src="./assets/img/product.png" alt="[PROD]" />
-            <p>PRODUCT</p>
-            <h4>$$$</h4>
-            <a href="#">Comprar</a>
-          </div>
-          <div class="product bebidas">
-            <img src="./assets/img/product.png" alt="[PROD]" />
-            <p>PRODUCT</p>
-            <h4>$$$</h4>
-            <a href="#">Comprar</a>
-          </div>
-          <div class="product bebidas">
-            <img src="./assets/img/product.png" alt="[PROD]" />
-            <p>PRODUCT</p>
-            <h4>$$$</h4>
-            <a href="#">Comprar</a>
-          </div>
-          <div class="product bebidas">
-            <img src="./assets/img/product.png" alt="[PROD]" />
-            <p>PRODUCT</p>
-            <h4>$$$</h4>
-            <a href="#">Comprar</a>
-          </div>
-          <div class="product bebidas">
-            <img src="./assets/img/product.png" alt="[PROD]" />
-            <p>PRODUCT</p>
-            <h4>$$$</h4>
-            <a href="#">Comprar</a>
-          </div>
+          {% endfor %}
         </div>
       </section>
     </main>
     <footer></footer>
-    <script src="./js/scriptHeaderFooter.js"></script>
+    <script src="{{url_for('static', filename='js/scriptHeaderFooter.js')}}"></script>
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <script>
       let swiper = new Swiper(".my-swiper", {
@@ -319,6 +318,9 @@
         },
       });
     </script>
-    <script src="./js/main.js" type="module"></script>
+    <script
+      src="{{url_for('static', filename='js/main.js')}}"
+      type="module"
+    ></script>
   </body>
 </html>
