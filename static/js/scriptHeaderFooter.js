@@ -1,4 +1,4 @@
-fetch("/inicio_sesion")
+fetch("/login")
   .then((response) => response.text())
   .then((html) => {
     let parser = new DOMParser();

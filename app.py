@@ -10,8 +10,9 @@
 @author4 Angel Yael Monroy Muñoz
 @colaborator Hector Ramses Navarrete Gomez
 """
-from flask import Flask, render_template
+from flask import Flask, render_template, request
 from flask_mysqldb import MySQL
+import re
 
 app = Flask(__name__)
 app.secret_key = 'jinofvx' # La clave es aleatoria, solo es para que funcione la sesión
@@ -21,6 +22,26 @@ app.config["MYSQL_PASSWORD"] = ""
 app.config["MYSQL_DB"] = "yadmandul_store"
 mysql = MySQL(app)
 
+#Metodos para las paginas
+
+#def is_
+
+@app.route("/add_usr", methods = ['POST'])
+def add_usr():
+    if request.method == 'POST':
+        nombre = request.form['nombre']
+        ap_pat = request.form['ap_pat']
+        ap_mat = request.form['ap_mat']
+        fec_nac = request.form['fec_nac']
+        correo = request.form['correo']
+        password = request.form['password']
+        cur = mysql.connection.cursor()
+        #if 
+        query = """
+            INSERT INTO 
+        """
+
+#Paginas
 @app.route("/")
 def index():
     cur = mysql.connection.cursor()
@@ -40,7 +61,7 @@ def page_not_found(e):
     # Si el usuario intenta acceder a una página que no existe, regresa un error 404
     return render_template('404.html'), 404
 
-@app.route('/inicio_sesion')
+@app.route('/login')
 def inicio_sesion():
     return render_template('inicioSesionClientes.html')
 
