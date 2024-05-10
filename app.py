@@ -82,6 +82,7 @@ def startsession():
                 return jsonify({'loggeo_exitoso': False})
     except Exception as e:
         return jsonify({'loggeo_exitoso': False, 'error': str(e)})
+    
 @app.route("/add_usr", methods = ['POST'])
 def add_usr():
     try:
@@ -124,17 +125,44 @@ def logout():
 @app.before_request
 def load_user():
     if 'user_id' in session:
-        cur = mysql.connection.cursor()
-        cur.execute('SELECT nom_cli, foto_cli FROM clientes WHERE id_cli = %s', (session['user_id'], ))
-        user_data = cur.fetchone()
+        if session['user_type'] == 'cliente':
+            cur = mysql.connection.cursor()
+            cur.execute('SELECT nom_cli, ap_pat_cli, ap_mat_cli, fecha_nac_cli, correo_cli, password_cli, foto_cli FROM clientes WHERE id_cli = %s', (session['user_id'], ))
+            user_data = cur.fetchone()
+        elif session['user_type'] == 'empleado':
+            cur = mysql.connection.cursor()
+            cur.execute('SELECT nom_emp, ap_pat_emp, ap_mat_emp, fec_nac_emp, correo_emp, password_emp, foto_emp FROM empleados WHERE id_emp = %s', (session['user_id'], ))
+            user_data = cur.fetchone()
+        elif session['user_type'] == 'administrador':
+            cur = mysql.connection.cursor()
+            cur.execute('SELECT nom_admin, ap_pat_admin, ap_mat_admin, fec_nac_admin, correo_admin, password_admin, foto_admin FROM administradores WHERE id_admin = %s', (session['user_id'], ))
+        
         if user_data is not None:
-            nom_cli, foto_cli = user_data
-            if(len(nom_cli) > 6): nom_cli = nom_cli[0:6]
-            if(foto_cli == ''): foto_cli = 'assets/img/user.png'
-            user = {"name": nom_cli, "photo": foto_cli}
+            nom, ap_pat, ap_mat, fecha_nac, correo, password, foto = user_data
+            if(session['user_type'] == 'cliente' and len(nom) > 6): nom = nom[0:6]
+            if(foto == ''): foto = 'assets/img/user.png'
+            user = {
+                "name": nom,
+                "ap_pat": ap_pat,
+                "ap_mat": ap_mat,
+                "fecha_nac": fecha_nac,
+                "correo": correo,
+                "password": password, 
+                "photo": foto
+            }
+            g.user = user
         else:
-            user = {"name": "", "photo": ""}
-        g.user = user
+            user = {
+                "name": "",
+                "ap_pat": "",
+                "ap_mat": "",
+                "fecha_nac": "",
+                "correo": "",
+                "password": "", 
+                "photo": ""
+            }
+            g.user = user
+        
     else:
         g.user = None
 
@@ -142,8 +170,12 @@ def load_user():
 @app.route("/")
 def index():
     if session:
-        if session['user_type'] == 'administrador' or session['user_type'] == 'empleado':
-            return 'Tu no deberias de estar aqui My friend'
+        # if session['user_type'] == 'administrador' or session['user_type'] == 'empleado':
+        #     return 'Tu no deberias de estar aqui My friend'
+        if session['user_type'] == 'administrador':
+            return redirect(url_for('administradores'))
+        elif session['user_type'] == 'empleado':
+            return redirect(url_for('empleados'))
     cur = mysql.connection.cursor()
 
     #Consulta para bebidas
@@ -179,15 +211,23 @@ def contacto():
 @app.route('/empleados')
 def empleados():
     if session:
-        if session['user_type'] == 'cliente' or session['user_type'] == 'administrador':
-            return 'Tu no deberias de estar aqui My friend'
-    return render_template('cuentaEmpleados.html')
+        # if session['user_type'] == 'cliente' or session['user_type'] == 'administrador':
+        #     return 'Tu no deberias de estar aqui My friend'
+        if session['user_type'] == 'cliente':
+            return redirect(url_for('index'))
+        elif session['user_type'] == 'administrador':
+            return redirect(url_for('administradores'))
+    return render_template('cuentaEmpleados.html', user = g.user)
 
 @app.route('/administradores')
 def administradores():
     if session:
-        if session['user_type'] == 'cliente' or session['user_type'] == 'empleado':
-            return 'Tu no deberias de estar aqui My friend'
+        # if session['user_type'] == 'cliente' or session['user_type'] == 'empleado':
+        #     return 'Tu no deberias de estar aqui My friend'
+        if session['user_type'] == 'cliente':
+            return redirect(url_for('index'))
+        elif session['user_type'] == 'empleado':
+            return redirect(url_for("empleados"))
     return render_template("cuentaAdmins.html")
 
 if __name__ == '__main__':

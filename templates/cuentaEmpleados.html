@@ -3,12 +3,29 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>[EMP] | Yadmandul store</title>
-    <link rel="stylesheet" type="text/css" href="./css/inicioSesion.css" />
-    <link rel="icon" href="./assets/img/logo_definitivo.png" type="image/png" />
-    <link rel="stylesheet" href="./css/style.css" />
-    <link rel="stylesheet" href="./css/stylesCuenta.css" />
-    <link rel="stylesheet" href="./css/styleAdmins.css" />
+    <title>Empleados | Yadmandul store</title>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{{url_for('static', filename='css/inicioSesion.css')}}"
+    />
+    <link
+      rel="icon"
+      href="{{url_for('static', filename='assets/img/logo_definitivo.png')}}"
+      type="image/png"
+    />
+    <link
+      rel="stylesheet"
+      href="{{url_for('static', filename='css/style.css')}}"
+    />
+    <link
+      rel="stylesheet"
+      href="{{url_for('static', filename='css/stylesCuenta.css')}}"
+    />
+    <link
+      rel="stylesheet"
+      href="{{url_for('static', filename='css/styleAdmins.css')}}"
+    />
     <script
       src="https://kit.fontawesome.com/ecae724dfb.js"
       crossorigin="anonymous"
@@ -35,14 +52,16 @@
     <header>
       <div class="title-container">
         <a href="#"
-          ><img src="./assets/img/logo_definitivo.png" alt="logo"
+          ><img
+            src="{{url_for('static', filename='assets/img/logo_definitivo.png')}}"
+            alt="logo"
         /></a>
-        <p>EMPLEADO [EMP] | Yadmandul store</p>
+        <p>EMPLEADO {{user.name}} | Yadmandul store</p>
       </div>
       <nav>
         <ul>
           <li>
-            <a href="#">
+            <a href="/logout">
               <i class="fa-solid fa-right-from-bracket"></i
               >&nbsp;&nbsp;&nbsp;Cerrar sesión
             </a>
@@ -82,17 +101,20 @@
     </aside>
     <main>
       <div class="user-data">
-        <img src="./assets/img/user.png" alt="[USER]" /><br />
+        <img
+          src="{{url_for('static', filename=user.photo)}}"
+          alt="{{user.name}}"
+        /><br />
         <input type="file" accept="image/*" />
         <button id="btn-change-photo">Cambiar foto</button>
-        <h2>[USER]</h2>
-        <h3>[EMAIL]</h3>
+        <h2>{{user.name}}</h2>
+        <h3>{{user.correo}}</h3>
         <div class="user-modify-data">
           <div class="name-container">
             <h4>
               <i class="fa-solid fa-signature"></i>&nbsp;&nbsp;&nbsp;Nombre
             </h4>
-            <input type="text" placeholder="[NAME]" />
+            <input type="text" placeholder="{{user.name}}" />
             <button>Modificar</button>
           </div>
           <div class="name-container">
@@ -100,7 +122,7 @@
               <i class="fa-solid fa-signature"></i>&nbsp;&nbsp;&nbsp;Apellido
               paterno
             </h4>
-            <input type="text" placeholder="[APPAT]" />
+            <input type="text" placeholder="{{user.ap_pat}}" />
             <button>Modificar</button>
           </div>
           <div class="name-container">
@@ -108,7 +130,7 @@
               <i class="fa-solid fa-signature"></i>&nbsp;&nbsp;&nbsp;Apellido
               materno
             </h4>
-            <input type="text" placeholder="[APMAT]" />
+            <input type="text" placeholder="{{user.ap_mat}}" />
             <button>Modificar</button>
           </div>
           <div class="name-container">
@@ -116,17 +138,17 @@
               <i class="fa-solid fa-envelope"></i>&nbsp;&nbsp;&nbsp;Correo
               electrónico
             </h4>
-            <input type="email" placeholder="[EMAIL]" />
+            <input type="email" placeholder="{{user.correo}}" />
             <button>Modificar</button>
           </div>
           <div class="name-container">
             <h4><i class="fa-solid fa-key"></i>&nbsp;&nbsp;&nbsp;Password</h4>
-            <input type="password" placeholder="[PASSWD]" />
+            <input type="password" />
             <button>Modificar</button>
           </div>
         </div>
       </div>
     </main>
-    <script src="./js/scriptFotoPerfil.js"></script>
+    <script src="{{url_for('static', filename='js/scriptFotoPerfil.js')}}"></script>
   </body>
 </html>
