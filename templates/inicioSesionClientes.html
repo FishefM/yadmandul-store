@@ -25,10 +25,16 @@
     </style>
   </head>
   <body>
-    <div class="aviso-container">
+    <div class="aviso-exito">
       <h1>Aviso</h1>
       <p>Registro completado con éxito</p>
-      <a id="close-aviso">Cerrar</a>
+      <a id="close-aviso-exito">Cerrar</a>
+    </div>
+
+    <div class="aviso-fracaso">
+      <h1>Aviso</h1>
+      <p>Error para completar el registro</p>
+      <a id="close-aviso-fracaso">Cerrar</a>
     </div>
     <header>
       <div class="title-container">
@@ -94,7 +100,7 @@
               </div> -->
             </div>
           </form>
-          <form action="/add_usr" method="POST">
+          <form action="/add_usr" method="POST" id="form-register">
             <div id="register-container">
               <h2>Registro</h2>
               <div class="inputbox">
@@ -132,7 +138,7 @@
                 <input type="password" required />
                 <label for="">Confirmar contraseña</label>
               </div>
-              <input type="submit" value="Registrar" />
+              <input type="submit" value="Registrar" id="#btn-register" />
               <!-- <div class="register">
                 <p>
                   Ya tengo una cuenta
@@ -200,7 +206,7 @@
       <a href="./contacto.html">Contacto</a>
     </footer>
     <script src="{{url_for('static', filename='js/scriptInicio.js')}}"></script>
-    <script type="text/javascript">
+    <script>
       (function (d, t) {
         var v = d.createElement(t),
           s = d.getElementsByTagName(t)[0];
@@ -216,5 +222,6 @@
         s.parentNode.insertBefore(v, s);
       })(document, "script");
     </script>
+    <script src="{{url_for('static', filename='js/register.js')}}"></script>
   </body>
 </html>
