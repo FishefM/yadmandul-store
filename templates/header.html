@@ -1,0 +1,49 @@
+<div class="title-container">
+  <a href="#"
+    ><img
+      src="{{url_for('static', filename='assets/img/logo_definitivo.png')}}"
+      alt="logo"
+  /></a>
+  <p>Yadmandul store</p>
+</div>
+<nav>
+  <ul>
+    <li><a href="#">Inicio</a></li>
+    <li><a href="#">Productos</a></li>
+    <li class="dropdown">
+      {%if user %}
+      <a href="#" class="user">
+        <img
+          src="{{url_for('static', filename=user.photo)}}"
+          alt="User"
+          id="img-user"
+        />
+        <p>&nbsp;&nbsp;&nbsp;{{user.name}}</p>
+      </a>
+      {% else %}
+      <a href="{{ url_for('inicio_sesion') }}" class="user">
+        <img
+          src="{{url_for('static', filename='./assets/img/user.png')}}"
+          alt="User"
+          id="img-user"
+        />
+        <p>&nbsp;&nbsp;&nbsp;Login</p>
+      </a>
+      {% endif %} {% if user %}
+      <ul class="dropdown-menu">
+        <li>
+          <a href="#"
+            ><i class="fa-solid fa-user"></i>&nbsp;&nbsp;&nbsp;Mi perfil</a
+          >
+        </li>
+        <li>
+          <a href="{{ url_for('logout') }}"
+            ><i class="fa-solid fa-right-from-bracket"></i
+            >&nbsp;&nbsp;&nbsp;Logout</a
+          >
+        </li>
+      </ul>
+      {% endif %}
+    </li>
+  </ul>
+</nav>

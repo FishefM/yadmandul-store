@@ -10,7 +10,7 @@
 @author4 Angel Yael Monroy Muñoz
 @colaborator Hector Ramses Navarrete Gomez
 """
-from flask import Flask, jsonify, render_template, request, session
+from flask import Flask, jsonify, render_template, request, session, g, redirect, url_for
 from flask_mysqldb import MySQL
 import re
 import bcrypt
@@ -113,6 +113,31 @@ def add_usr():
     except Exception as e:
         return jsonify({'registro_exitoso': False, 'error': str(e)})
 
+@app.route("/logout")
+def logout():
+    session.pop('user_id', None)
+    session.pop('user_type', None)
+    g.user = None
+
+    return redirect(url_for('inicio_sesion'))
+
+@app.before_request
+def load_user():
+    if 'user_id' in session:
+        cur = mysql.connection.cursor()
+        cur.execute('SELECT nom_cli, foto_cli FROM clientes WHERE id_cli = %s', (session['user_id'], ))
+        user_data = cur.fetchone()
+        if user_data is not None:
+            nom_cli, foto_cli = user_data
+            if(len(nom_cli) > 6): nom_cli = nom_cli[0:6]
+            if(foto_cli == ''): foto_cli = 'assets/img/user.png'
+            user = {"name": nom_cli, "photo": foto_cli}
+        else:
+            user = {"name": "", "photo": ""}
+        g.user = user
+    else:
+        g.user = None
+
 #Paginas
 @app.route("/")
 def index():
@@ -120,17 +145,6 @@ def index():
         if session['user_type'] == 'administrador' or session['user_type'] == 'empleado':
             return 'Tu no deberias de estar aqui My friend'
     cur = mysql.connection.cursor()
-
-    #Consulta para los usuarios
-    cur.execute('SELECT nom_cli, foto_cli FROM clientes WHERE id_cli = %s', (session['user_id'], ))
-    user_data = cur.fetchone()
-    if user_data is not None:
-        nom_cli, foto_cli = user_data
-        if(len(nom_cli) > 6): nom_cli = nom_cli[0:6]
-        if(foto_cli == ''): foto_cli = 'assets/img/user.png'
-        user = {"name": nom_cli, "photo": foto_cli}
-    else:
-        user = {"name": "", "photo": ""}
 
     #Consulta para bebidas
     cur.execute('SELECT nom_prod, precio_prod, foto_prod FROM productos WHERE cantidad_prod > 0 AND estado_prod=true AND tipo_prod="bebidas"')
@@ -144,7 +158,7 @@ def index():
         "index.html", 
         bebidas = bebidas, 
         dulces = dulces, 
-        user = user
+        user = g.user
     )
 
 @app.errorhandler(404)
@@ -154,6 +168,8 @@ def page_not_found(e):
 
 @app.route('/login')
 def inicio_sesion():
+    if g.user:
+        return redirect(url_for('index'))
     return render_template('inicioSesionClientes.html')
 
 @app.route('/contacto')
