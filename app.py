@@ -136,7 +136,8 @@ def load_user():
         elif session['user_type'] == 'administrador':
             cur = mysql.connection.cursor()
             cur.execute('SELECT nom_admin, ap_pat_admin, ap_mat_admin, fec_nac_admin, correo_admin, password_admin, foto_admin FROM administradores WHERE id_admin = %s', (session['user_id'], ))
-        
+            user_data = cur.fetchone()
+
         if user_data is not None:
             nom, ap_pat, ap_mat, fecha_nac, correo, password, foto = user_data
             if(session['user_type'] == 'cliente' and len(nom) > 6): nom = nom[0:6]
@@ -228,7 +229,7 @@ def administradores():
             return redirect(url_for('index'))
         elif session['user_type'] == 'empleado':
             return redirect(url_for("empleados"))
-    return render_template("cuentaAdmins.html")
+    return render_template("cuentaAdmins.html", user = g.user)
 
 if __name__ == '__main__':
     app.run(debug=True) # Inicia el servidor web en modo debug
