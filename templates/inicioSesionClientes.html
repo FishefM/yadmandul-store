@@ -36,6 +36,11 @@
       <p>Error para completar el registro</p>
       <a id="close-aviso-fracaso">Cerrar</a>
     </div>
+    <div class="aviso-password">
+      <h1>Aviso</h1>
+      <p>Correo y/o contraseña incorrectos</p>
+      <a id="close-aviso-password">Cerrar</a>
+    </div>
     <header>
       <div class="title-container">
         <a href="#"
@@ -55,7 +60,7 @@
                 src="{{url_for('static', filename='assets/img/user.png')}}"
                 alt="User"
                 id="img-user"
-              />&nbsp;&nbsp;&nbsp;[USER]
+              />&nbsp;&nbsp;&nbsp;Login
             </a>
             <ul class="dropdown-menu">
               <li><a href="#">Mi perfil</a></li>
@@ -67,31 +72,28 @@
       </nav>
     </header>
     <section>
-      <a href="#" class="button" id="back-button"
+      <a href="/" class="button" id="back-button"
         ><i class="fa fa-arrow-circle-left" aria-hidden="true"></i
       ></a>
       <div class="form-box">
         <div class="form-value">
-          <form action="">
+          <form action="/startsession" method="POST" id="form-start-session">
             <div id="login-container">
               <h2>Inicio de sesión</h2>
               <div class="inputbox">
                 <ion-icon name="mail-outline"></ion-icon>
-                <input type="email" required />
+                <input type="email" name="email" required />
                 <label for="">Correo electrónico</label>
               </div>
               <div class="inputbox">
                 <ion-icon name="mail-outline"></ion-icon>
-                <input type="password" required />
+                <input type="password" name="password" required />
                 <label for="">Contraseña</label>
               </div>
               <div class="forget">
-                <label for=""
-                  ><input type="checkbox" />Recordar
-                  <a href="#">Olvidé la contraseña</a></label
-                >
+                <label for=""> <a href="#">Olvidé la contraseña</a></label>
               </div>
-              <button>Inicio</button>
+              <input type="submit" value="Inicio" />
               <!-- <div class="register">
                 <p>
                   No tengo una cuenta
@@ -223,5 +225,6 @@
       })(document, "script");
     </script>
     <script src="{{url_for('static', filename='js/register.js')}}"></script>
+    <script src="{{url_for('static', filename='js/start_session.js')}}"></script>
   </body>
 </html>

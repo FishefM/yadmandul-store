@@ -329,7 +329,8 @@ input[type="submit"]:hover {
 
 
 .aviso-exito,
-.aviso-fracaso {
+.aviso-fracaso,
+.aviso-password {
     /* display: none; */
     visibility: hidden;
     opacity: 0;
@@ -347,13 +348,15 @@ input[type="submit"]:hover {
 }
 
 .aviso-exito.visible,
-.aviso-fracaso.visible {
+.aviso-fracaso.visible,
+.aviso-password.visible {
     visibility: visible;
     opacity: 1;
 }
 
 .aviso-exito h1,
-.aviso-fracaso h1 {
+.aviso-fracaso h1,
+.aviso-password h1 {
     border-radius: 50px;
 }
 
@@ -362,18 +365,21 @@ input[type="submit"]:hover {
     
 }
 
-.aviso-fracaso h1 {
+.aviso-fracaso h1,
+.aviso-password h1 {
     background-color: red;
 }
 
 .aviso-exito p,
-.aviso-fracaso p {
+.aviso-fracaso p,
+.aviso-password p {
     margin: 20px;
     font-size: 2rem;
 }
 
 .aviso-exito a,
-.aviso-fracaso a {
+.aviso-fracaso a,
+.aviso-password a {
     display: inline-block;
     width: 100%;
     border: thin solid yellow;

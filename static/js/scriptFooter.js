@@ -3,8 +3,8 @@ fetch("/login")
   .then((html) => {
     let parser = new DOMParser();
     let doc = parser.parseFromString(html, "text/html");
-    let header = doc.querySelector("header");
+    // let header = doc.querySelector("header");
     let footer = doc.querySelector("footer");
-    document.querySelector("header").innerHTML = header.innerHTML;
+    // document.querySelector("header").innerHTML = header.innerHTML;
     document.querySelector("footer").innerHTML = footer.innerHTML;
   });

@@ -9,7 +9,8 @@ create table administradores(
     ap_mat_admin varchar(30) not null,
     fec_nac_admin date not null,
     correo_admin varchar(255) not null,
-    password_admin varchar(20) not null
+    password_admin varchar(255) not null,
+    foto_admin varchar(255) not null
 ) engine = InnoDB;
 
 create table clientes(
@@ -19,8 +20,9 @@ create table clientes(
     ap_mat_cli varchar(30) not null,
     fecha_nac_cli date not null,
     correo_cli varchar(255) not null,
-    password_cli varchar(20) not null,
-    estado_cli boolean not null
+    password_cli varchar(255) not null,
+    estado_cli boolean not null,
+    foto_cli varchar(255) not null
 ) engine = InnoDB;
 
 create table empleados(
@@ -30,8 +32,9 @@ create table empleados(
     ap_mat_emp varchar(30) not null,
     fec_nac_emp date not null,
     correo_emp varchar(255),
-    password_emp varchar(20) not null,
-    estado_emp boolean not null
+    password_emp varchar(255) not null,
+    estado_emp boolean not null,
+    foto_emp varchar(255) not null
 ) engine = InnoDB;
 
 create table proveedores(
