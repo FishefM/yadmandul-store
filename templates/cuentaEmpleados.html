@@ -99,6 +99,7 @@
                 >&nbsp;&nbsp;&nbsp;Pedidos
               </a>
               <select id="order-status">
+                <option value="none">-- Seleccione --</option>
                 <option value="pending">Pedidos pendientes</option>
                 <option value="cancelled">Pedidos cancelados</option>
                 <option value="completed">Pedidos completados</option>
@@ -107,8 +108,8 @@
           </li>
           <li>
             <a href="#" id="btn-clients"
-              ><i class="fa-solid fa-cookie-bite" style="font-size: 0.8em"></i
-              >&nbsp;&nbsp;&nbsp;Productos</a
+              ><i class="fa-solid fa-cookie-bite" style="font-size: 0.7em"></i
+              >&nbsp;&nbsp;Productos</a
             >
           </li>
         </ul>
@@ -214,7 +215,133 @@
           </form>
         </div>
       </div>
+      <div class="employees-container">
+        <!--Pedidos-->
+        <div class="welcome-employees-container">
+          <h1>Pedidos</h1>
+          <p>Selecciona una opción para ver los pedidos</p>
+        </div>
+
+        <div class="pending-employees-container">
+          <h1>Pedidos pendientes</h1>
+        </div>
+
+        <div class="cancelled-employees-container">
+          <h1>Pedidos cancelados</h1>
+        </div>
+
+        <div class="completed-employees-container">
+          <h1>Pedidos completados</h1>
+        </div>
+      </div>
+      <div class="clients-container">
+        <!--Productos-->
+        <p>Hola 2</p>
+      </div>
     </main>
+    <script>
+      const $btnProfile = document.getElementById("btn-profile");
+      const $btnEmployees = document.getElementById("btn-employees");
+      const $btnClients = document.getElementById("btn-clients");
+      const $employeesContainer = document.querySelector(
+        ".employees-container"
+      );
+      const $userData = document.querySelector(".user-data");
+      const $clientsContainer = document.querySelector(".clients-container");
+      function profile() {
+        $userData.style.display = "block";
+        $employeesContainer.style.display = "none";
+        $clientsContainer.style.display = "none";
+        $btnProfile.classList.add("btn-aside-active");
+        $btnEmployees.classList.remove("btn-aside-active");
+        $btnClients.classList.remove("btn-aside-active");
+      }
+      window.onload = profile;
+      $btnProfile.addEventListener("click", () => {
+        $userData.style.display = "block";
+        $employeesContainer.style.display = "none";
+        $clientsContainer.style.display = "none";
+        //$ordersContainer.style.display = "none";
+        $btnProfile.classList.add("btn-aside-active");
+        // $main.classList.remove("main-purchases");
+        // $main.classList.add("main-user-data");
+        $btnEmployees.classList.remove("btn-aside-active");
+        $btnProfile.classList.add("btn-aside-active:hover");
+        $btnEmployees.classList.remove("btn-aside-active:hover");
+        $btnClients.classList.remove("btn-aside-active");
+        $btnClients.classList.remove("btn-aside-active:hover");
+        //$btnOrders.classList.remove("btn-aside-active");
+      });
+      $btnEmployees.addEventListener("click", () => {
+        $userData.style.display = "none";
+        $clientsContainer.style.display = "none";
+        $employeesContainer.style.display = "block";
+        //$ordersContainer.style.display = "none";
+        $btnProfile.classList.remove("btn-aside-active");
+        $btnEmployees.classList.add("btn-aside-active");
+        $btnClients.classList.remove("btn-aside-active");
+        // $main.classList.remove("main-user-data");
+        // $main.classList.add("main-purchases");
+        $btnProfile.classList.remove("btn-aside-active:hover");
+        $btnEmployees.classList.add("btn-aside-active:hover");
+        $btnClients.classList.remove("btn-aside-active:hover");
+        //$btnOrders.classList.remove("btn-aside-active");
+      });
+      $btnClients.addEventListener("click", () => {
+        $userData.style.display = "none";
+        $employeesContainer.style.display = "none";
+        $clientsContainer.style.display = "block";
+        //$ordersContainer.style.display = "none";
+        $btnProfile.classList.remove("btn-aside-active");
+        $btnEmployees.classList.remove("btn-aside-active");
+        $btnClients.classList.add("btn-aside-active");
+        // $main.classList.remove("main-user-data");
+        // $main.classList.add("main-purchases");
+        $btnProfile.classList.remove("btn-aside-active:hover");
+        $btnEmployees.classList.remove("btn-aside-active:hover");
+        $btnClients.classList.add("btn-aside-active:hover");
+        //$btnOrders.classList.remove("btn-aside-active");
+      });
+    </script>
+    <script>
+      const $selectElement = document.getElementById("order-status");
+      const $welcome = document.querySelector(".welcome-employees-container");
+      const $pending = document.querySelector(".pending-employees-container");
+      const $cancelled = document.querySelector(
+        ".cancelled-employees-container"
+      );
+      const $completed = document.querySelector(
+        ".completed-employees-container"
+      );
+
+      $pending.style.display = "none";
+      $cancelled.style.display = "none";
+      $completed.style.display = "none";
+
+      $selectElement.addEventListener("change", function () {
+        if (this.value === "none") {
+          $welcome.style.display = "block";
+          $pending.style.display = "none";
+          $cancelled.style.display = "none";
+          $completed.style.display = "none";
+        } else if (this.value === "pending") {
+          $welcome.style.display = "none";
+          $pending.style.display = "block";
+          $cancelled.style.display = "none";
+          $completed.style.display = "none";
+        } else if (this.value === "cancelled") {
+          $welcome.style.display = "none";
+          $pending.style.display = "none";
+          $cancelled.style.display = "block";
+          $completed.style.display = "none";
+        } else if (this.value === "completed") {
+          $welcome.style.display = "none";
+          $pending.style.display = "none";
+          $cancelled.style.display = "none";
+          $completed.style.display = "block";
+        }
+      });
+    </script>
     <script src="{{url_for('static', filename='js/scriptFotoPerfil.js')}}"></script>
     <script
       src="{{url_for('static', filename='js/main_modify_employee.js')}}"
