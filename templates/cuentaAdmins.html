@@ -419,15 +419,5 @@
       type="module"
     ></script>
     <script src="{{url_for('static', filename='js/filter_users.js')}}"></script>
-    <script>
-      document.getElementById("buscar").addEventListener("input", function () {
-        var buscar = this.value.toLowerCase();
-        var filas = document.querySelectorAll("tr[data-nombre]");
-        for (var i = 0; i < filas.length; i++) {
-          var nombre = filas[i].getAttribute("data-nombre").toLowerCase();
-          filas[i].style.display = nombre.includes(buscar) ? "" : "none";
-        }
-      });
-    </script>
   </body>
 </html>

@@ -15,3 +15,12 @@ document
       filasInactivas[i].style.display = this.checked ? "" : "none";
     }
   });
+
+document.getElementById("buscar").addEventListener("input", function () {
+  let buscar = this.value.toLowerCase();
+  let filas = document.querySelectorAll("tr[data-nombre]");
+  for (let i = 0; i < filas.length; i++) {
+    let nombre = filas[i].getAttribute("data-nombre").toLowerCase();
+    filas[i].style.display = nombre.includes(buscar) ? "" : "none";
+  }
+});
