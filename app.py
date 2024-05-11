@@ -10,6 +10,8 @@
 @author4 Angel Yael Monroy Muñoz
 @colaborator Hector Ramses Navarrete Gomez
 """
+import os
+import uuid
 from flask import Flask, jsonify, render_template, request, session, g, redirect, url_for
 from flask_mysqldb import MySQL
 import re
@@ -43,6 +45,11 @@ def check_password(hashed_password, user_password):
     hashed_password_bytes = hashed_password.encode('utf-8')
 
     return bcrypt.checkpw(user_password_bytes, hashed_password_bytes)
+
+def generar_nombre_unico(nombre_original):
+    nombre_unico = uuid.uuid4().hex # Genera un nombre aleatorio
+    extension = os.path.splitext(nombre_original)[1] # Obtiene la extensión del archivo
+    return f"{nombre_unico}{extension}" # Regresa el nombre aleatorio con la extensión
 
 @app.route('/startsession', methods=['POST'])
 def startsession():
@@ -113,6 +120,88 @@ def add_usr():
             return jsonify({'registro_exitoso': True})
     except Exception as e:
         return jsonify({'registro_exitoso': False, 'error': str(e)})
+
+@app.route("/modify_name_employee", methods = ['POST'])
+def modify_name_employee():
+    try:
+        if request.method == 'POST':
+            name = request.form['name']
+            cur = mysql.connection.cursor()
+            cur.execute("UPDATE empleados SET nom_emp = %s WHERE id_emp = %s", (name, session['user_id']))
+            mysql.connection.commit()
+            return jsonify({'modificacion_exitosa': True})
+    except Exception as e:
+        return jsonify({'modificacion_exitosa': False, 'error': str(e)})
+
+@app.route("/modify_appat_employee", methods = ['POST'])
+def modify_appat_employee():
+    try:
+        if request.method == 'POST':
+            appat = request.form['appat']
+            cur = mysql.connection.cursor()
+            cur.execute("UPDATE empleados SET ap_pat_emp = %s WHERE id_emp = %s", (appat, session['user_id']))
+            mysql.connection.commit()
+            return jsonify({'modificacion_exitosa': True})
+    except Exception as e:
+        return jsonify({'modificacion_exitosa': False, 'error': str(e)})
+
+@app.route("/modify_apmat_employee", methods = ['POST'])
+def modify_apmat_employee():
+    try:
+        if request.method == 'POST':
+            apmat = request.form['apmat']
+            cur = mysql.connection.cursor()
+            cur.execute("UPDATE empleados SET ap_mat_emp = %s WHERE id_emp = %s", (apmat, session['user_id']))
+            mysql.connection.commit()
+            return jsonify({'modificacion_exitosa': True})
+    except Exception as e:
+        return jsonify({'modificacion_exitosa': False, 'error': str(e)})
+
+@app.route("/modify_correo_employee", methods = ['POST'])
+def modify_correo_employee():
+    try:
+        if request.method == 'POST':
+            correo = request.form['correo']
+            if is_emp(correo):
+                cur = mysql.connection.cursor()
+                cur.execute("UPDATE empleados SET correo_emp = %s WHERE id_emp = %s", (correo, session['user_id']))
+                mysql.connection.commit()
+                return jsonify({'modificacion_exitosa': True})
+            else: return jsonify({'modificacion_exitosa': False, 'error': "Correo inválido"})
+
+    except Exception as e:
+        return jsonify({'modificacion_exitosa': False, 'error': str(e)})
+
+@app.route("/modify_password_employee", methods = ['POST'])
+def modify_password_employee():
+    try:
+        if request.method == 'POST':
+            password = encrypt_password(request.form['password'])
+            cur = mysql.connection.cursor()
+            cur.execute("UPDATE empleados SET password_emp = %s WHERE id_emp = %s", (password, session['user_id']))
+            mysql.connection.commit()
+            return jsonify({'modificacion_exitosa': True})
+    except Exception as e:
+        return jsonify({'modificacion_exitosa': False, 'error': str(e)})
+
+@app.route("/upload_img_employee", methods = ['POST'])
+def upload_img_employee():
+    try:
+        if request.method == 'POST':
+            cur = mysql.connection.cursor()
+            cur.execute("SELECT foto_emp FROM empleados WHERE id_emp = %s", (session['user_id'], ))
+            current_photo = cur.fetchone()
+            if current_photo[0] != '': os.remove('static/' + current_photo[0])
+            file = request.files['photo']
+            unique_file = generar_nombre_unico(file.filename)
+            url_photo = 'static/uploads/empleados/' + unique_file
+            file.save(url_photo)
+            url_photo = 'uploads/empleados/' + unique_file
+            cur.execute("UPDATE empleados SET foto_emp = %s WHERE id_emp = %s", (url_photo, session['user_id']))
+            mysql.connection.commit()
+            return jsonify({'modificacion_exitosa': True})
+    except Exception as e:
+        return jsonify({'modificacion_exitosa': False, 'error': str(e)})
 
 @app.route("/logout")
 def logout():
