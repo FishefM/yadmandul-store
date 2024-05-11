@@ -185,6 +185,10 @@
         </div>
       </div>
       <div class="employees-container">
+        <h1>Empleados</h1>
+        <input type="search" id="buscar" placeholder="Buscar" />
+        <input type="checkbox" id="mostrarActivos" checked />Mostrar activos
+        <input type="checkbox" id="mostrarInactivos" checked />Mostrar inactivos
         <table>
           <tr>
             <th>Foto</th>
@@ -193,111 +197,40 @@
             <th>Correo electrónico</th>
             <th>Acción</th>
           </tr>
-          <tr>
+          {% for empleado in empleados %}
+          <tr
+            class="{{ 'activo' if empleado.5 else 'inactivo' }}"
+            data-nombre="{{ empleado.2 }}"
+          >
             <td>
               <img
-                src="./assets/img/employee.png"
+                src="{{url_for('static', filename=empleado.1)}}"
                 alt="Foto del empleado"
                 id="employee-photo"
               />
             </td>
-            <td>Juan Pérez</td>
-            <td>1990-01-01</td>
-            <td>juan.perez@example.com</td>
-            <td><button>Dar de baja</button></td>
-          </tr>
-          <tr>
+            <td>{{empleado.2}}</td>
+            <td>{{empleado.3}}</td>
+            <td>{{empleado.4}}</td>
             <td>
-              <img
-                src="./assets/img/employee.png"
-                alt="Foto del empleado"
-                id="employee-photo"
-              />
+              {% if empleado.5 %}
+              <form
+                action="{{ url_for('dar_de_baja_emp', id=empleado[0]) }}"
+                method="POST"
+              >
+                <input type="submit" value="Dar de baja" />
+              </form>
+              {% else %}
+              <form
+                action="{{ url_for('dar_de_alta_emp', id=empleado[0]) }}"
+                method="POST"
+              >
+                <input type="submit" value="Dar de alta" />
+              </form>
+              {% endif %}
             </td>
-            <td>Juan Pérez</td>
-            <td>1990-01-01</td>
-            <td>juan.perez@example.com</td>
-            <td><button>Dar de baja</button></td>
           </tr>
-          <tr>
-            <td>
-              <img
-                src="./assets/img/employee.png"
-                alt="Foto del empleado"
-                id="employee-photo"
-              />
-            </td>
-            <td>Juan Pérez</td>
-            <td>1990-01-01</td>
-            <td>juan.perez@example.com</td>
-            <td><button>Dar de baja</button></td>
-          </tr>
-          <tr>
-            <td>
-              <img
-                src="./assets/img/employee.png"
-                alt="Foto del empleado"
-                id="employee-photo"
-              />
-            </td>
-            <td>Juan Pérez</td>
-            <td>1990-01-01</td>
-            <td>juan.perez@example.com</td>
-            <td><button>Dar de baja</button></td>
-          </tr>
-          <tr>
-            <td>
-              <img
-                src="./assets/img/employee.png"
-                alt="Foto del empleado"
-                id="employee-photo"
-              />
-            </td>
-            <td>Juan Pérez</td>
-            <td>1990-01-01</td>
-            <td>juan.perez@example.com</td>
-            <td><button>Dar de baja</button></td>
-          </tr>
-          <tr>
-            <td>
-              <img
-                src="./assets/img/employee.png"
-                alt="Foto del empleado"
-                id="employee-photo"
-              />
-            </td>
-            <td>Juan Pérez</td>
-            <td>1990-01-01</td>
-            <td>juan.perez@example.com</td>
-            <td><button>Dar de baja</button></td>
-          </tr>
-          <tr>
-            <td>
-              <img
-                src="./assets/img/employee.png"
-                alt="Foto del empleado"
-                id="employee-photo"
-              />
-            </td>
-            <td>Juan Pérez</td>
-            <td>1990-01-01</td>
-            <td>juan.perez@example.com</td>
-            <td><button>Dar de baja</button></td>
-          </tr>
-          <tr>
-            <td>
-              <img
-                src="./assets/img/employee.png"
-                alt="Foto del empleado"
-                id="employee-photo"
-              />
-            </td>
-            <td>Juan Pérez</td>
-            <td>1990-01-01</td>
-            <td>juan.perez@example.com</td>
-            <td><button>Dar de baja</button></td>
-          </tr>
-          <!-- Más filas aquí cuando se implemente el backend -->
+          {% endfor %}
         </table>
       </div>
       <div class="clients-container">
@@ -485,5 +418,16 @@
       src="{{url_for('static', filename='js/main_modify_admin.js')}}"
       type="module"
     ></script>
+    <script src="{{url_for('static', filename='js/filter_users.js')}}"></script>
+    <script>
+      document.getElementById("buscar").addEventListener("input", function () {
+        var buscar = this.value.toLowerCase();
+        var filas = document.querySelectorAll("tr[data-nombre]");
+        for (var i = 0; i < filas.length; i++) {
+          var nombre = filas[i].getAttribute("data-nombre").toLowerCase();
+          filas[i].style.display = nombre.includes(buscar) ? "" : "none";
+        }
+      });
+    </script>
   </body>
 </html>

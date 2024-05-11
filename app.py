@@ -338,6 +338,26 @@ def load_user():
     else:
         g.user = None
 
+@app.route('/dar_de_baja_emp/<int:id>', methods = ['POST'])
+def dar_de_baja_emp(id):
+    if session and session['user_type'] == 'administrador':
+        cur = mysql.connection.cursor()
+        cur.execute("UPDATE empleados SET estado_emp = false WHERE id_emp = %s", (id, ))
+        mysql.connection.commit()
+        return redirect(url_for('administradores'))
+    else:
+        return "No tienes permisos para realizar esta acción"
+
+@app.route('/dar_de_alta_emp/<int:id>', methods = ['POST'])
+def dar_de_alta_emp(id):
+    if session and session['user_type'] == 'administrador':
+        cur = mysql.connection.cursor()
+        cur.execute("UPDATE empleados SET estado_emp = true WHERE id_emp = %s", (id, ))
+        mysql.connection.commit()
+        return redirect(url_for('administradores'))
+    else:
+        return "No tienes permisos para realizar esta acción"
+
 #Paginas
 @app.route("/")
 def index():
@@ -400,7 +420,13 @@ def administradores():
             return redirect(url_for('index'))
         elif session['user_type'] == 'empleado':
             return redirect(url_for("empleados"))
-    return render_template("cuentaAdmins.html", user = g.user)
+    cur = mysql.connection.cursor()
+    cur.execute("SELECT id_emp, foto_emp, CONCAT(nom_emp, ' ', ap_pat_emp, ' ', ap_mat_emp) as 'Nombre completo', fec_nac_emp, correo_emp, estado_emp FROM empleados")
+    empleados = cur.fetchall()
+    list_empleados = [list(empleado) for empleado in empleados]
+    for empleado in list_empleados:
+        if empleado[1] == '': empleado[1] = "assets/img/user.png"
+    return render_template("cuentaAdmins.html", user = g.user, empleados = list_empleados)
 
 if __name__ == '__main__':
     app.run(debug=True) # Inicia el servidor web en modo debug
