@@ -133,6 +133,18 @@ def modify_name_employee():
     except Exception as e:
         return jsonify({'modificacion_exitosa': False, 'error': str(e)})
 
+@app.route("/modify_name_admin", methods = ['POST'])
+def modify_name_admin():
+    try:
+        if request.method == 'POST':
+            name = request.form['name']
+            cur = mysql.connection.cursor()
+            cur.execute("UPDATE administradores SET nom_admin = %s WHERE id_admin = %s", (name, session['user_id']))
+            mysql.connection.commit()
+            return jsonify({'modificacion_exitosa': True})
+    except Exception as e:
+        return jsonify({'modificacion_exitosa': False, 'error': str(e)})
+
 @app.route("/modify_appat_employee", methods = ['POST'])
 def modify_appat_employee():
     try:
@@ -145,6 +157,19 @@ def modify_appat_employee():
     except Exception as e:
         return jsonify({'modificacion_exitosa': False, 'error': str(e)})
 
+@app.route("/modify_appat_admin", methods = ['POST'])
+def modify_appat_admin():
+    try:
+        if request.method == 'POST':
+            appat = request.form['appat']
+            cur = mysql.connection.cursor()
+            cur.execute("UPDATE administradores SET ap_pat_admin = %s WHERE id_admin = %s", (appat, session['user_id']))
+            mysql.connection.commit()
+            return jsonify({'modificacion_exitosa': True})
+    except Exception as e:
+        return jsonify({'modificacion_exitosa': False, 'error': str(e)})
+
+
 @app.route("/modify_apmat_employee", methods = ['POST'])
 def modify_apmat_employee():
     try:
@@ -152,6 +177,18 @@ def modify_apmat_employee():
             apmat = request.form['apmat']
             cur = mysql.connection.cursor()
             cur.execute("UPDATE empleados SET ap_mat_emp = %s WHERE id_emp = %s", (apmat, session['user_id']))
+            mysql.connection.commit()
+            return jsonify({'modificacion_exitosa': True})
+    except Exception as e:
+        return jsonify({'modificacion_exitosa': False, 'error': str(e)})
+
+@app.route("/modify_apmat_admin", methods = ['POST'])
+def modify_apmat_admin():
+    try:
+        if request.method == 'POST':
+            apmat = request.form['apmat']
+            cur = mysql.connection.cursor()
+            cur.execute("UPDATE administradores SET ap_mat_admin = %s WHERE id_admin = %s", (apmat, session['user_id']))
             mysql.connection.commit()
             return jsonify({'modificacion_exitosa': True})
     except Exception as e:
@@ -172,6 +209,20 @@ def modify_correo_employee():
     except Exception as e:
         return jsonify({'modificacion_exitosa': False, 'error': str(e)})
 
+@app.route("/modify_correo_admin", methods = ['POST'])
+def modify_correo_admin():
+    try:
+        if request.method == 'POST':
+            correo = request.form['correo']
+            if is_admin(correo):
+                cur = mysql.connection.cursor()
+                cur.execute("UPDATE administradores SET correo_admin = %s WHERE id_admin = %s", (correo, session['user_id']))
+                mysql.connection.commit()
+                return jsonify({'modificacion_exitosa': True})
+            else: return jsonify({'modificacion_exitosa': False, 'error': "Correo inválido"})
+    except Exception as e:
+        return jsonify({'modificacion_exitosa': False, 'error': str(e)})
+
 @app.route("/modify_password_employee", methods = ['POST'])
 def modify_password_employee():
     try:
@@ -179,6 +230,18 @@ def modify_password_employee():
             password = encrypt_password(request.form['password'])
             cur = mysql.connection.cursor()
             cur.execute("UPDATE empleados SET password_emp = %s WHERE id_emp = %s", (password, session['user_id']))
+            mysql.connection.commit()
+            return jsonify({'modificacion_exitosa': True})
+    except Exception as e:
+        return jsonify({'modificacion_exitosa': False, 'error': str(e)})
+
+@app.route("/modify_password_admin", methods = ['POST'])
+def modify_password_admin():
+    try:
+        if request.method == 'POST':
+            password = encrypt_password(request.form['password'])
+            cur = mysql.connection.cursor()
+            cur.execute("UPDATE administradores SET password_admin = %s WHERE id_admin = %s", (password, session['user_id']))
             mysql.connection.commit()
             return jsonify({'modificacion_exitosa': True})
     except Exception as e:
@@ -198,6 +261,25 @@ def upload_img_employee():
             file.save(url_photo)
             url_photo = 'uploads/empleados/' + unique_file
             cur.execute("UPDATE empleados SET foto_emp = %s WHERE id_emp = %s", (url_photo, session['user_id']))
+            mysql.connection.commit()
+            return jsonify({'modificacion_exitosa': True})
+    except Exception as e:
+        return jsonify({'modificacion_exitosa': False, 'error': str(e)})
+
+@app.route("/upload_img_admin", methods = ['POST'])
+def upload_img_admin():
+    try:
+        if request.method == 'POST':
+            cur = mysql.connection.cursor()
+            cur.execute("SELECT foto_admin FROM administradores WHERE id_admin = %s", (session['user_id'], ))
+            current_photo = cur.fetchone()
+            if current_photo[0] != '': os.remove('static/' + current_photo[0])
+            file = request.files['photo']
+            unique_file = generar_nombre_unico(file.filename)
+            url_photo = 'static/uploads/admins/' + unique_file
+            file.save(url_photo)
+            url_photo = 'uploads/admins/' + unique_file
+            cur.execute("UPDATE administradores SET foto_admin = %s WHERE id_admin = %s", (url_photo, session['user_id']))
             mysql.connection.commit()
             return jsonify({'modificacion_exitosa': True})
     except Exception as e:
