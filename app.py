@@ -358,6 +358,26 @@ def dar_de_alta_emp(id):
     else:
         return "No tienes permisos para realizar esta acción"
 
+@app.route('/dar_de_baja_cli/<int:id>', methods = ['POST'])
+def dar_de_baja_cli(id):
+    if session and session['user_type'] == 'administrador':
+        cur = mysql.connection.cursor()
+        cur.execute("UPDATE clientes SET estado_cli = false WHERE id_cli = %s", (id, ))
+        mysql.connection.commit()
+        return redirect(url_for('administradores'))
+    else:
+        return "No tienes permisos para realizar esta acción"
+
+@app.route('/dar_de_alta_cli/<int:id>', methods = ['POST'])
+def dar_de_alta_cli(id):
+    if session and session['user_type'] == 'administrador':
+        cur = mysql.connection.cursor()
+        cur.execute("UPDATE clientes SET estado_cli = true WHERE id_cli = %s", (id, ))
+        mysql.connection.commit()
+        return redirect(url_for('administradores'))
+    else:
+        return "No tienes permisos para realizar esta acción"
+
 #Paginas
 @app.route("/")
 def index():
@@ -423,10 +443,20 @@ def administradores():
     cur = mysql.connection.cursor()
     cur.execute("SELECT id_emp, foto_emp, CONCAT(nom_emp, ' ', ap_pat_emp, ' ', ap_mat_emp) as 'Nombre completo', fec_nac_emp, correo_emp, estado_emp FROM empleados")
     empleados = cur.fetchall()
+    cur.execute("SELECT id_cli, foto_cli, CONCAT(nom_cli, ' ', ap_pat_cli, ' ', ap_mat_cli) as 'Nombre completo', fecha_nac_cli, correo_cli, estado_cli FROM clientes")
+    clientes = cur.fetchall()
     list_empleados = [list(empleado) for empleado in empleados]
+    list_clientes = [list(cliente) for cliente in clientes]
     for empleado in list_empleados:
         if empleado[1] == '': empleado[1] = "assets/img/user.png"
-    return render_template("cuentaAdmins.html", user = g.user, empleados = list_empleados)
+    for cliente in list_clientes:
+        if cliente[1] == '': cliente[1] = "assets/img/user.png"
+    return render_template(
+        "cuentaAdmins.html", 
+        user = g.user, 
+        empleados = list_empleados,
+        clientes = list_clientes
+    )
 
 if __name__ == '__main__':
     app.run(debug=True) # Inicia el servidor web en modo debug

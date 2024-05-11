@@ -186,9 +186,11 @@
       </div>
       <div class="employees-container">
         <h1>Empleados</h1>
-        <input type="search" id="buscar" placeholder="Buscar" />
-        <input type="checkbox" id="mostrarActivos" checked />Mostrar activos
-        <input type="checkbox" id="mostrarInactivos" checked />Mostrar inactivos
+        <input type="search" id="buscar_employees" placeholder="Buscar" />
+        <input type="checkbox" id="mostrarActivos_employees" checked />Mostrar
+        activos
+        <input type="checkbox" id="mostrarInactivos_employees" checked />Mostrar
+        inactivos
         <table>
           <tr>
             <th>Foto</th>
@@ -200,7 +202,7 @@
           {% for empleado in empleados %}
           <tr
             class="{{ 'activo' if empleado.5 else 'inactivo' }}"
-            data-nombre="{{ empleado.2 }}"
+            data-nombre-emp="{{ empleado.2 }}"
           >
             <td>
               <img
@@ -234,6 +236,11 @@
         </table>
       </div>
       <div class="clients-container">
+        <h1>Clientes</h1>
+        <input type="search" id="buscar_cli" placeholder="Buscar" />
+        <input type="checkbox" id="mostrarActivos_cli" checked />Mostrar activos
+        <input type="checkbox" id="mostrarInactivos_cli" checked />Mostrar
+        inactivos
         <table>
           <tr>
             <th>Foto</th>
@@ -242,110 +249,40 @@
             <th>Correo electrónico</th>
             <th>Acción</th>
           </tr>
-          <tr>
+          {% for cliente in clientes %}
+          <tr
+            class="{{ 'activo' if cliente.5 else 'inactivo' }}"
+            data-nombre-cli="{{ cliente.2 }}"
+          >
             <td>
               <img
-                src="./assets/img/client.png"
+                src="{{url_for('static', filename=cliente.1)}}"
                 alt="Foto del cliente"
                 id="client-photo"
               />
             </td>
-            <td>Juan Pérez</td>
-            <td>1990-01-01</td>
-            <td>juan.perez@example.com</td>
-            <td><button>Dar de baja</button></td>
-          </tr>
-          <tr>
+            <td>{{cliente.2}}</td>
+            <td>{{cliente.3}}</td>
+            <td>{{cliente.4}}</td>
             <td>
-              <img
-                src="./assets/img/client.png"
-                alt="Foto del cliente"
-                id="client-photo"
-              />
+              {% if cliente.5 %}
+              <form
+                action="{{ url_for('dar_de_baja_cli', id=cliente[0]) }}"
+                method="POST"
+              >
+                <input type="submit" value="Dar de baja" />
+              </form>
+              {% else %}
+              <form
+                action="{{ url_for('dar_de_alta_cli', id=cliente[0]) }}"
+                method="POST"
+              >
+                <input type="submit" value="Dar de alta" />
+              </form>
+              {% endif %}
             </td>
-            <td>Juan Pérez</td>
-            <td>1990-01-01</td>
-            <td>juan.perez@example.com</td>
-            <td><button>Dar de baja</button></td>
           </tr>
-          <tr>
-            <td>
-              <img
-                src="./assets/img/client.png"
-                alt="Foto del cliente"
-                id="client-photo"
-              />
-            </td>
-            <td>Juan Pérez</td>
-            <td>1990-01-01</td>
-            <td>juan.perez@example.com</td>
-            <td><button>Dar de baja</button></td>
-          </tr>
-          <tr>
-            <td>
-              <img
-                src="./assets/img/client.png"
-                alt="Foto del cliente"
-                id="client-photo"
-              />
-            </td>
-            <td>Juan Pérez</td>
-            <td>1990-01-01</td>
-            <td>juan.perez@example.com</td>
-            <td><button>Dar de baja</button></td>
-          </tr>
-          <tr>
-            <td>
-              <img
-                src="./assets/img/client.png"
-                alt="Foto del cliente"
-                id="client-photo"
-              />
-            </td>
-            <td>Juan Pérez</td>
-            <td>1990-01-01</td>
-            <td>juan.perez@example.com</td>
-            <td><button>Dar de baja</button></td>
-          </tr>
-          <tr>
-            <td>
-              <img
-                src="./assets/img/client.png"
-                alt="Foto del cliente"
-                id="client-photo"
-              />
-            </td>
-            <td>Juan Pérez</td>
-            <td>1990-01-01</td>
-            <td>juan.perez@example.com</td>
-            <td><button>Dar de baja</button></td>
-          </tr>
-          <tr>
-            <td>
-              <img
-                src="./assets/img/client.png"
-                alt="Foto del cliente"
-                id="client-photo"
-              />
-            </td>
-            <td>Juan Pérez</td>
-            <td>1990-01-01</td>
-            <td>juan.perez@example.com</td>
-            <td><button>Dar de baja</button></td>
-          </tr>
-          <tr>
-            <td>
-              <img
-                src="./assets/img/client.png"
-                alt="Foto del cliente"
-                id="client-photo"
-              />
-            </td>
-            <td>Juan Pérez</td>
-            <td>1990-01-01</td>
-            <td>juan.perez@example.com</td>
-            <td><button>Dar de baja</button></td>
-          </tr>
+          {% endfor %}
         </table>
       </div>
     </main>
@@ -418,6 +355,9 @@
       src="{{url_for('static', filename='js/main_modify_admin.js')}}"
       type="module"
     ></script>
-    <script src="{{url_for('static', filename='js/filter_users.js')}}"></script>
+    <script
+      src="{{url_for('static', filename='js/main_filter_users.js')}}"
+      type="module"
+    ></script>
   </body>
 </html>
