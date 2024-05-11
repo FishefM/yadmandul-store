@@ -67,12 +67,12 @@ def startsession():
                 user_type = "administrador"
             elif is_emp(email):
                 query = """
-                    SELECT id_emp as id, password_emp as password FROM empleados WHERE correo_emp = %s
+                    SELECT id_emp as id, password_emp as password FROM empleados WHERE correo_emp = %s AND estado_emp = true
                 """
                 user_type = "empleado"
             else:
                 query = """
-                    SELECT id_cli as id, password_cli as password FROM clientes WHERE correo_cli = %s
+                    SELECT id_cli as id, password_cli as password FROM clientes WHERE correo_cli = %s AND estado_cli = true
                 """
                 user_type = "cliente"
 
@@ -86,7 +86,7 @@ def startsession():
                 else:
                     return jsonify({'loggeo_exitoso': False})
             else:
-                return jsonify({'loggeo_exitoso': False})
+                return jsonify({'loggeo_exitoso': False, 'error': "El usuario esta baneado"})
     except Exception as e:
         return jsonify({'loggeo_exitoso': False, 'error': str(e)})
     
