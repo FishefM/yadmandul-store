@@ -340,6 +340,50 @@
           {% endfor %}
         </div>
       </section>
+      <section id="jarcieria">
+        <div class="title-product-container">
+          <h1>Jarciería</h1>
+          <input
+            type="search"
+            name="card-filter"
+            id="card-filter-jarcieria"
+            placeholder="Buscar"
+          />
+        </div>
+
+        <div class="products">
+          {% for objeto in jarcieria %}
+          <div class="product jarcieria">
+            <img src="{{objeto.2}}" alt="{{objeto.0}}" />
+            <p>{{objeto.0}}</p>
+            <h4>$ {{objeto.1}}</h4>
+            <a href="#">Comprar</a>
+          </div>
+          {% endfor %}
+        </div>
+      </section>
+      <section id="comida-instantanea">
+        <div class="title-product-container">
+          <h1>Comida instantánea</h1>
+          <input
+            type="search"
+            name="card-filter"
+            id="card-filter-cinstantanea"
+            placeholder="Buscar"
+          />
+        </div>
+
+        <div class="products">
+          {% for comida in comidas %}
+          <div class="product cinstantanea">
+            <img src="{{comida.2}}" alt="{{comida.0}}" />
+            <p>{{comida.0}}</p>
+            <h4>$ {{comida.1}}</h4>
+            <a href="#">Comprar</a>
+          </div>
+          {% endfor %}
+        </div>
+      </section>
     </main>
     <footer></footer>
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>

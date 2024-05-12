@@ -444,11 +444,21 @@ def index():
     #Consulta para dulces
     cur.execute('SELECT nom_prod, precio_prod, foto_prod FROM productos WHERE cantidad_prod > 0 AND estado_prod=true AND tipo_prod="dulces"')
     dulces = cur.fetchall()
-    #print(data)
+    
+    #Consulta para jarcieria
+    cur.execute('SELECT nom_prod, precio_prod, foto_prod FROM productos WHERE cantidad_prod > 0 AND estado_prod=true AND tipo_prod="jarcieria"')
+    jarcieria = cur.fetchall()
+
+    #Consulta para comidas
+    cur.execute('SELECT nom_prod, precio_prod, foto_prod FROM productos WHERE cantidad_prod > 0 AND estado_prod=true AND tipo_prod="cinstantanea"')
+    comidas = cur.fetchall()
+
     return render_template(
         "index.html", 
         bebidas = bebidas, 
         dulces = dulces, 
+        jarcieria = jarcieria,
+        comidas = comidas,
         user = g.user
     )
 
@@ -487,7 +497,7 @@ def empleados():
         'cuentaEmpleados.html', 
         user = g.user, 
         productos = list_productos,
-        tipos_prod = ['dulces', 'bebidas']
+        tipos_prod = ['dulces', 'bebidas', 'jarcieria', 'cinstantanea']
     )
 
 @app.route('/administradores')
