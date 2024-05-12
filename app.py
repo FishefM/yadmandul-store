@@ -266,25 +266,6 @@ def upload_img_employee():
     except Exception as e:
         return jsonify({'modificacion_exitosa': False, 'error': str(e)})
 
-@app.route("/upload_img_admin", methods = ['POST'])
-def upload_img_admin():
-    try:
-        if request.method == 'POST':
-            cur = mysql.connection.cursor()
-            cur.execute("SELECT foto_admin FROM administradores WHERE id_admin = %s", (session['user_id'], ))
-            current_photo = cur.fetchone()
-            if current_photo[0] != '': os.remove('static/' + current_photo[0])
-            file = request.files['photo']
-            unique_file = generar_nombre_unico(file.filename)
-            url_photo = 'static/uploads/admins/' + unique_file
-            file.save(url_photo)
-            url_photo = 'uploads/admins/' + unique_file
-            cur.execute("UPDATE administradores SET foto_admin = %s WHERE id_admin = %s", (url_photo, session['user_id']))
-            mysql.connection.commit()
-            return jsonify({'modificacion_exitosa': True})
-    except Exception as e:
-        return jsonify({'modificacion_exitosa': False, 'error': str(e)})
-
 @app.route("/logout")
 def logout():
     session.pop('user_id', None)
@@ -368,6 +349,16 @@ def dar_de_baja_cli(id):
     else:
         return "No tienes permisos para realizar esta acción"
 
+@app.route('/dar_de_baja_prod/<int:id>', methods = ['POST'])
+def dar_de_baja_prod(id):
+    if session and session['user_type'] == 'empleado':
+        cur = mysql.connection.cursor()
+        cur.execute("UPDATE productos SET estado_prod = false WHERE id_prod = %s", (id, ))
+        mysql.connection.commit()
+        return redirect(url_for('empleados'))
+    else:
+        return "No tienes permisos para realizar esta acción"
+
 @app.route('/dar_de_alta_cli/<int:id>', methods = ['POST'])
 def dar_de_alta_cli(id):
     if session and session['user_type'] == 'administrador':
@@ -378,6 +369,62 @@ def dar_de_alta_cli(id):
     else:
         return "No tienes permisos para realizar esta acción"
 
+@app.route('/dar_de_alta_prod/<int:id>', methods = ['POST'])
+def dar_de_alta_prod(id):
+    if session and session['user_type'] == 'empleado':
+        cur = mysql.connection.cursor()
+        cur.execute("UPDATE productos SET estado_prod = true WHERE id_prod = %s", (id, ))
+        mysql.connection.commit()
+        return redirect(url_for('empleados'))
+    else:
+        return "No tienes permisos para realizar esta acción"
+
+@app.route("/upload_img_admin", methods = ['POST'])
+def upload_img_admin():
+    try:
+        if request.method == 'POST':
+            cur = mysql.connection.cursor()
+            cur.execute("SELECT foto_admin FROM administradores WHERE id_admin = %s", (session['user_id'], ))
+            current_photo = cur.fetchone()
+            if current_photo[0] != '': os.remove('static/' + current_photo[0])
+            file = request.files['photo']
+            unique_file = generar_nombre_unico(file.filename)
+            url_photo = 'static/uploads/admins/' + unique_file
+            file.save(url_photo)
+            url_photo = 'uploads/admins/' + unique_file
+            cur.execute("UPDATE administradores SET foto_admin = %s WHERE id_admin = %s", (url_photo, session['user_id']))
+            mysql.connection.commit()
+            return jsonify({'modificacion_exitosa': True})
+    except Exception as e:
+        return jsonify({'modificacion_exitosa': False, 'error': str(e)})
+
+@app.route("/modify_prod/<int:id>", methods = ['POST'])
+def modify_prod(id):
+    if session and session['user_type'] == 'empleado':
+        try:
+            if request.method == 'POST':
+                id_prov = request.form['id_prov']
+                cur = mysql.connection.cursor()
+                cur.execute("SELECT foto_prod FROM productos WHERE id_prod = %s", (id, ))
+                current_photo = cur.fetchone()
+                file = request.files['foto_prod']
+                if file.filename != '':
+                    if current_photo[0] != '': os.remove('static/' + current_photo[0])
+                    unique_file = generar_nombre_unico(file.filename)
+                    url_photo = 'static/uploads/img_products/' + unique_file
+                    file.save(url_photo)
+                    url_photo = 'uploads/img_products/' + unique_file
+                else: url_photo = current_photo[0]
+                nom_prod = request.form['nom_prod']
+                tipo_prod = request.form['tipo_prod']
+                precio_prod = request.form['precio_prod']
+                cantidad_prod = request.form['cantidad_prod']
+                cur.execute("UPDATE productos SET id_prov = %s, foto_prod = %s, nom_prod = %s, tipo_prod = %s, precio_prod = %s, cantidad_prod = %s WHERE id_prod = %s", (id_prov, url_photo, nom_prod, tipo_prod, precio_prod, cantidad_prod, id))
+                mysql.connection.commit()
+                return jsonify({'modificacion_exitosa': True})
+        except Exception as e:
+            return jsonify({'modificacion_exitosa': False, 'error': str(e)})
+        
 #Paginas
 @app.route("/")
 def index():
@@ -429,7 +476,19 @@ def empleados():
             return redirect(url_for('index'))
         elif session['user_type'] == 'administrador':
             return redirect(url_for('administradores'))
-    return render_template('cuentaEmpleados.html', user = g.user)
+    
+    cur = mysql.connection.cursor()
+    cur.execute("SELECT id_prod, id_prov, foto_prod, nom_prod, tipo_prod, precio_prod, cantidad_prod, estado_prod FROM productos")
+    productos = cur.fetchall()
+    list_productos = [list(producto) for producto in productos]
+    for producto in list_productos:
+        if producto[2] == '': producto[2] = "assets/img/product.png"
+    return render_template(
+        'cuentaEmpleados.html', 
+        user = g.user, 
+        productos = list_productos,
+        tipos_prod = ['dulces', 'bebidas']
+    )
 
 @app.route('/administradores')
 def administradores():

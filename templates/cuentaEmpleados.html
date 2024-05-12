@@ -236,7 +236,101 @@
       </div>
       <div class="clients-container">
         <!--Productos-->
-        <p>Hola 2</p>
+        <h1>Productos</h1>
+        <input type="search" id="buscar_prod" placeholder="Buscar" />
+        <input type="checkbox" id="mostrarActivos_prod" checked />Mostrar
+        activos
+        <input type="checkbox" id="mostrarInactivos_prod" checked />Mostrar
+        inactivos
+        <table>
+          <tr>
+            <th>ID</th>
+            <th>Proveedor</th>
+            <th>Foto</th>
+            <th>Producto</th>
+            <th>Tipo</th>
+            <th>Precio</th>
+            <th>Cantidad</th>
+            <th>Modificar</th>
+            <th>Acción</th>
+          </tr>
+          {% for producto in productos %}
+          <tr
+            class="{{ 'activo' if producto.7 else 'inactivo' }}"
+            data-nombre-prod="{{ producto.3 }}"
+          >
+            <form
+              action="{{url_for('modify_prod', id=producto.0)}}"
+              method="POST"
+              id="form-modify_prod"
+              data-id="{{producto.0}}"
+            >
+              <td>{{producto.0}}</td>
+              <td>
+                <input type"number" value="{{producto.1}}" name="id_prov" />
+              </td>
+              <td>
+                <img
+                  src="{{url_for('static', filename=producto.2)}}"
+                  alt="Foto del producto"
+                  width="100px"
+                  height="150px"
+                />
+                <input
+                  type="file"
+                  accept="image/*"
+                  name="foto_prod"
+                  id="#change-photo"
+                />
+              </td>
+              <td>
+                <input type="text" value="{{producto.3}}" name="nom_prod" />
+              </td>
+              <td>
+                <select name="tipo_prod">
+                  {% for tipo in tipos_prod %} <option value="{{ tipo }}" {% if
+                  tipo == producto.4 %}selected{% endif %}> {{ tipo }} {% endfor
+                  %}
+                </select>
+              </td>
+              <td>
+                <input
+                  type="number"
+                  value="{{producto.5}}"
+                  name="precio_prod"
+                />
+              </td>
+              <td>
+                <input
+                  type="number"
+                  value="{{producto.6}}"
+                  name="cantidad_prod"
+                />
+              </td>
+              <td>
+                <input type="submit" value="Modificar" />
+              </td>
+            </form>
+            <td>
+              {% if producto.7 %}
+              <form
+                action="{{ url_for('dar_de_baja_prod', id=producto[0]) }}"
+                method="POST"
+              >
+                <input type="submit" value="Dar de baja" />
+              </form>
+              {% else %}
+              <form
+                action="{{ url_for('dar_de_alta_prod', id=producto[0]) }}"
+                method="POST"
+              >
+                <input type="submit" value="Dar de alta" />
+              </form>
+              {% endif %}
+            </td>
+          </tr>
+          {% endfor %}
+        </table>
       </div>
     </main>
     <script>
@@ -345,6 +439,22 @@
     <script src="{{url_for('static', filename='js/scriptFotoPerfil.js')}}"></script>
     <script
       src="{{url_for('static', filename='js/main_modify_employee.js')}}"
+      type="module"
+    ></script>
+    <script>
+      document
+        .getElementById("#change-photo")
+        .addEventListener("change", function (e) {
+          let reader = new FileReader();
+          reader.onload = (event) => {
+            document.querySelector(".clients-container img").src =
+              event.target.result;
+          };
+          reader.readAsDataURL(e.target.files[0]);
+        });
+    </script>
+    <script
+      src="{{url_for('static', filename='js/main_filter_prod.js')}}"
       type="module"
     ></script>
   </body>
