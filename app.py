@@ -398,6 +398,30 @@ def upload_img_admin():
     except Exception as e:
         return jsonify({'modificacion_exitosa': False, 'error': str(e)})
 
+@app.route("/insert_products", methods = ['POST'])
+def insert_products():
+    if session and session['user_type'] == 'empleado':
+        try:
+            if request.method == 'POST':
+                nom_prod = request.form['nom_prod']
+                tipo_prod = request.form['tipo_prod']
+                precio_prod = request.form['precio_prod']
+                cantidad_prod = request.form['cantidad_prod']
+                id_prov = request.form['id_prov']
+                file = request.files['foto_prod']
+                unique_file = generar_nombre_unico(file.filename)
+                url_photo = 'static/uploads/img_products/' + unique_file
+                file.save(url_photo)
+                url_photo = 'uploads/img_products/' + unique_file
+                cur = mysql.connection.cursor()
+                cur.execute("INSERT INTO productos VALUES (default, %s, %s, %s, %s, true, %s, %s)", (nom_prod, tipo_prod, precio_prod, cantidad_prod, url_photo, id_prov))
+                mysql.connection.commit()
+                return jsonify({'modificacion_exitosa': True, 'info': "Registro completado con éxito"})
+        except Exception as e:
+            return jsonify({'modificacion_exitosa': False, 'error': str(e)})
+    else:
+        return "No tienes permisos para realizar esta acción"
+
 @app.route("/modify_prod/<int:id>", methods = ['POST'])
 def modify_prod(id):
     if session and session['user_type'] == 'empleado':
@@ -493,10 +517,14 @@ def empleados():
     list_productos = [list(producto) for producto in productos]
     for producto in list_productos:
         if producto[2] == '': producto[2] = "assets/img/product.png"
+    
+    cur.execute("SELECT id_prov, CONCAT(nom_prov, ' ', ap_pat_prov, ' ', ap_mat_prov) FROM proveedores")
+    proveedores = cur.fetchall()
     return render_template(
         'cuentaEmpleados.html', 
         user = g.user, 
         productos = list_productos,
+        proveedores = proveedores,
         tipos_prod = ['dulces', 'bebidas', 'jarcieria', 'cinstantanea']
     )
 

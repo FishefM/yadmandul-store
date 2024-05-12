@@ -237,6 +237,42 @@
       <div class="clients-container">
         <!--Productos-->
         <h1>Productos</h1>
+        <h2>Registro de productos</h2>
+        <form action="/insert_products" method="POST" id="form-insert_products">
+          <label>Nombre del producto</label>
+          <input type="text" name="nom_prod" required /><br />
+          <label>Tipo</label>
+          <select name="tipo_prod">
+            {% for tipo in tipos_prod %}
+            <option value="{{ tipo }}">{{ tipo }}</option>
+            {% endfor %}</select
+          ><br />
+          <label>Precio</label>
+          <input type="number" name="precio_prod" required /><br />
+          <label>Cantidad</label>
+          <input type="number" name="cantidad_prod" required /><br />
+          <label>ID del proveedor</label>
+          <select name="id_prov">
+            {% for proveedor in proveedores %}
+            <option value="{{ proveedor[0] }}">
+              {{ proveedor.0 }} -> {{proveedor.1}}
+            </option>
+            {% endfor %}</select
+          ><br />
+          <label>Foto</label>
+          <input
+            type="file"
+            accept="image/*"
+            name="foto_prod"
+            id="#change-photo"
+            required
+          />
+          <input
+            type="submit"
+            value="Registrar"
+            style="margin-top: 10px; margin-bottom: 10px"
+          />
+        </form>
         <input type="search" id="buscar_prod" placeholder="Buscar" />
         <input type="checkbox" id="mostrarActivos_prod" checked />Mostrar
         activos
@@ -267,7 +303,11 @@
             >
               <td>{{producto.0}}</td>
               <td>
-                <input type"number" value="{{producto.1}}" name="id_prov" />
+                <select name="id_prov">
+                  {% for proveedor in proveedores %} <option value="{{
+                  proveedor[0] }}" {% if proveedor == producto.1 %}selected{%
+                  endif %}> {{ proveedor.0 }} -> {{proveedor.1}} {% endfor %}
+                </select>
               </td>
               <td>
                 <img

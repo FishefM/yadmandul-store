@@ -1,6 +1,6 @@
 export default function modify(form, action) {
   const $avisoExito = document.querySelector(".aviso-exito");
-  // const $pAvisoExito = document.querySelector(".aviso-exito p");
+  const $pAvisoExito = document.querySelector(".aviso-exito p");
   const $avisoFracaso = document.querySelector(".aviso-fracaso");
   const $pAvisoFracaso = document.querySelector(".aviso-fracaso p");
   const $closeAvisoExito = document.getElementById("close-aviso-exito");
@@ -25,6 +25,7 @@ export default function modify(form, action) {
       .then((response) => response.json())
       .then((data) => {
         if (data.modificacion_exitosa) {
+          if (data.info) $pAvisoExito.textContent = data.info;
           $avisoExito.classList.add("visible");
         } else {
           $pAvisoFracaso.textContent =
