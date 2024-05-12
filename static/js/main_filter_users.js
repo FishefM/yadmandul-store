@@ -13,4 +13,5 @@ document.addEventListener("DOMContentLoaded", () => {
     "buscar_cli",
     "data-nombre-cli"
   );
+  filter_users(undefined, undefined, "buscar_prov", "data-nombre-prov");
 });
