@@ -1,0 +1,4 @@
+touch static/uploads/admins/.gitkeep
+touch static/uploads/clientes/.gitkeep
+touch static/uploads/empleados/.gitkeep
+touch static/uploads/img_products/.gitkeep

@@ -1,4 +1,11 @@
 static/uploads/admins/*
+!static/uploads/admins/.gitkeep
+
 static/uploads/clientes/*
+!static/uploads/clientes/.gitkeep
+
 static/uploads/empleados/*
+!static/uploads/empleados/.gitkeep
+
 static/uploads/img_products/*
+!static/uploads/img_products/.gitkeep
