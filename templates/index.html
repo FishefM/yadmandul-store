@@ -33,11 +33,57 @@
       rel="stylesheet"
       href="{{url_for('static', filename='css/products_carousel.css')}}"
     />
+    <link
+      rel="stylesheet"
+      href="{{url_for('static', filename='css/cards.css')}}"
+    />
     <title>Yadmandul Store</title>
   </head>
   <body>
     <header>{% include 'header.html' %}</header>
     <main>
+      <h1 id="title-main">Explora nuestras diferentes categorías</h1>
+      <div id="gallery">
+        <div class="img-card active">
+          <img src="{{url_for('static', filename='assets/img/bebidas.jpg')}}" />
+          <label>
+            <ion-icon name="beer"></ion-icon>
+            <span><a href="#bebidas" class="gallery-link">Bebidas</a></span>
+          </label>
+        </div>
+
+        <div class="img-card">
+          <img src="{{url_for('static', filename='assets/img/dulces.jpeg')}}" />
+          <label>
+            <ion-icon name="pin"></ion-icon>
+            <span><a href="#dulces" class="gallery-link">Dulces</a></span>
+          </label>
+        </div>
+
+        <div class="img-card">
+          <img
+            src="{{url_for('static', filename='assets/img/jarcieria.jpg')}}"
+          />
+          <label>
+            <ion-icon name="bonfire"></ion-icon>
+            <span><a href="#jarcieria" class="gallery-link">Jarcieria</a></span>
+          </label>
+        </div>
+
+        <div class="img-card">
+          <img
+            src="{{url_for('static', filename='assets/img/comidainstantanea.png')}}"
+          />
+          <label>
+            <ion-icon name="fast-food"></ion-icon>
+            <span
+              ><a href="#comida-instantanea" class="gallery-link"
+                >Comida instantánea</a
+              ></span
+            >
+          </label>
+        </div>
+      </div>
       <h1 id="title-main">Explora nuestros productos destacados</h1>
       <div class="swiper my-swiper">
         <div class="swiper-wrapper">
@@ -321,6 +367,15 @@
       src="{{url_for('static', filename='js/main.js')}}"
       type="module"
     ></script>
+    <script
+      type="module"
+      src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"
+    ></script>
+    <script
+      nomodule
+      src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"
+    ></script>
     <script src="{{url_for('static', filename='js/scriptFooter.js')}}"></script>
+    <script src="{{url_for('static', filename='js/cards_index.js')}}"></script>
   </body>
 </html>
