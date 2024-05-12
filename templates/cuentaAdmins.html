@@ -87,6 +87,12 @@
               ><i class="fa-solid fa-users"></i>&nbsp;&nbsp;&nbsp;Clientes</a
             >
           </li>
+          <li>
+            <a href="#" id="btn-proveedores" style="font-size: 1em"
+              ><i class="fa-brands fa-shopify"></i
+              >&nbsp;&nbsp;&nbsp;Proveedores</a
+            >
+          </li>
         </ul>
       </nav>
     </aside>
@@ -285,69 +291,171 @@
           {% endfor %}
         </table>
       </div>
+      <div class="proveedores-container">
+        <h1>Proveedores</h1>
+        <h2>Registro de proveedores</h2>
+        <form
+          action="/insert_proveedores"
+          method="POST"
+          id="form-insert_proveedores"
+        >
+          <label>Nombre</label>
+          <input type="text" name="nom_prov" required />
+          <br />
+          <label>Apellido paterno</label>
+          <input type="text" name="ap_pat_prov" required />
+          <br />
+          <label>Apellido materno</label>
+          <input type="text" name="ap_mat_prov" required />
+          <br />
+          <label>Correo electrónico</label>
+          <input type="email" name="correo_prov" required />
+          <br />
+          <label>Teléfono</label>
+          <input type="text" name="tel_prov" required />
+          <br />
+          <input
+            type="submit"
+            value="Registrar"
+            style="margin-top: 10px; margin-bottom: 10px"
+          />
+        </form>
+        <input type="search" id="buscar_prov" placeholder="Buscar" />
+        <table>
+          <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Apellido paterno</th>
+            <th>Apellido materno</th>
+            <th>Correo electrónico</th>
+            <th>Teléfono</th>
+            <th>Modificar</th>
+          </tr>
+          {% for proveedor in proveedores %}
+          <tr data-nombre-prov="{{proveedor.1}}">
+            <form
+              action="{{url_for('modify_prov', id=proveedor.0)}}"
+              method="POST"
+              class="form-modify_prov"
+              data-id="{{proveedor.0}}"
+            >
+              <td>{{proveedor.0}}</td>
+              <td>
+                <input type="text" , name="nom_prov" value="{{proveedor.1}}" />
+              </td>
+              <td>
+                <input type="text" name="ap_pat_prov" value="{{proveedor.2}}" />
+              </td>
+              <td>
+                <input type="text" name="ap_mat_prov" value="{{proveedor.3}}" />
+              </td>
+              <td>
+                <input
+                  type="email"
+                  name="correo_prov"
+                  value="{{proveedor.4}}"
+                />
+              </td>
+              <td>
+                <input type="number" name="tel_prov" value="{{proveedor.5}}" />
+              </td>
+              <td>
+                <input type="submit" value="Modificar" />
+              </td>
+            </form>
+          </tr>
+          {% endfor %}
+        </table>
+      </div>
     </main>
     <script src="{{url_for('static', filename='js/scriptFotoPerfil.js')}}"></script>
     <script>
       const $btnProfile = document.getElementById("btn-profile");
       const $btnEmployees = document.getElementById("btn-employees");
       const $btnClients = document.getElementById("btn-clients");
+      const $btnProveedores = document.getElementById("btn-proveedores");
       const $employeesContainer = document.querySelector(
         ".employees-container"
       );
       const $userData = document.querySelector(".user-data");
       const $clientsContainer = document.querySelector(".clients-container");
+      const $proveedoresContainer = document.querySelector(
+        ".proveedores-container"
+      );
+
       function profile() {
         $userData.style.display = "block";
         $employeesContainer.style.display = "none";
         $clientsContainer.style.display = "none";
+        $proveedoresContainer.style.display = "none";
         $btnProfile.classList.add("btn-aside-active");
         $btnEmployees.classList.remove("btn-aside-active");
         $btnClients.classList.remove("btn-aside-active");
+        $btnProveedores.classList.remove("btn-aside-active");
       }
       window.onload = profile;
       $btnProfile.addEventListener("click", () => {
         $userData.style.display = "block";
         $employeesContainer.style.display = "none";
         $clientsContainer.style.display = "none";
+        $proveedoresContainer.style.display = "none";
         //$ordersContainer.style.display = "none";
         $btnProfile.classList.add("btn-aside-active");
         // $main.classList.remove("main-purchases");
         // $main.classList.add("main-user-data");
         $btnEmployees.classList.remove("btn-aside-active");
+        $btnProveedores.classList.remove("btn-aside-active");
+        $btnClients.classList.remove("btn-aside-active");
         $btnProfile.classList.add("btn-aside-active:hover");
         $btnEmployees.classList.remove("btn-aside-active:hover");
-        $btnClients.classList.remove("btn-aside-active");
         $btnClients.classList.remove("btn-aside-active:hover");
+        $btnProveedores.classList.remove("btn-aside-active:hover");
         //$btnOrders.classList.remove("btn-aside-active");
       });
       $btnEmployees.addEventListener("click", () => {
         $userData.style.display = "none";
-        $clientsContainer.style.display = "none";
         $employeesContainer.style.display = "block";
-        //$ordersContainer.style.display = "none";
+        $clientsContainer.style.display = "none";
+        $proveedoresContainer.style.display = "none";
         $btnProfile.classList.remove("btn-aside-active");
         $btnEmployees.classList.add("btn-aside-active");
+        $btnProveedores.classList.remove("btn-aside-active");
         $btnClients.classList.remove("btn-aside-active");
-        // $main.classList.remove("main-user-data");
-        // $main.classList.add("main-purchases");
         $btnProfile.classList.remove("btn-aside-active:hover");
         $btnEmployees.classList.add("btn-aside-active:hover");
         $btnClients.classList.remove("btn-aside-active:hover");
-        //$btnOrders.classList.remove("btn-aside-active");
+        $btnProveedores.classList.remove("btn-aside-active:hover");
       });
       $btnClients.addEventListener("click", () => {
         $userData.style.display = "none";
         $employeesContainer.style.display = "none";
         $clientsContainer.style.display = "block";
+        $proveedoresContainer.style.display = "none";
+        $btnProfile.classList.remove("btn-aside-active");
+        $btnEmployees.classList.remove("btn-aside-active");
+        $btnProveedores.classList.remove("btn-aside-active");
+        $btnClients.classList.add("btn-aside-active");
+        $btnProfile.classList.remove("btn-aside-active:hover");
+        $btnEmployees.classList.remove("btn-aside-active:hover");
+        $btnClients.classList.add("btn-aside-active:hover");
+        $btnProveedores.classList.remove("btn-aside-active:hover");
+      });
+      $btnProveedores.addEventListener("click", () => {
+        $userData.style.display = "none";
+        $employeesContainer.style.display = "none";
+        $clientsContainer.style.display = "none";
+        $proveedoresContainer.style.display = "block";
         //$ordersContainer.style.display = "none";
         $btnProfile.classList.remove("btn-aside-active");
         $btnEmployees.classList.remove("btn-aside-active");
-        $btnClients.classList.add("btn-aside-active");
+        $btnClients.classList.remove("btn-aside-active");
+        $btnProveedores.classList.add("btn-aside-active");
         // $main.classList.remove("main-user-data");
         // $main.classList.add("main-purchases");
         $btnProfile.classList.remove("btn-aside-active:hover");
         $btnEmployees.classList.remove("btn-aside-active:hover");
-        $btnClients.classList.add("btn-aside-active:hover");
+        $btnClients.classList.remove("btn-aside-active:hover");
+        $btnProveedores.classList.add("btn-aside-active:hover");
         //$btnOrders.classList.remove("btn-aside-active");
       });
     </script>

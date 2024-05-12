@@ -18,7 +18,8 @@ aside {
 }
 
 .employees-container,
-.clients-container{
+.clients-container,
+.proveedores-container{
     display: flex;
     flex-wrap: wrap;
     justify-content: space-around;
@@ -37,7 +38,8 @@ aside {
 }
 
 .employees-container table,
-.clients-container table{
+.clients-container table,
+.proveedores-container table{
     width: 100%;
     margin-top: 20px;
     border-collapse: collapse;
@@ -45,28 +47,33 @@ aside {
 }
 
 .employees-container table th,
-.clients-container table th{
+.clients-container table th,
+.proveedores-container table th{
     background-color: #000e1b;
     color: #fff;
     padding: 20px;
 }
 
 .employees-container table td,
-.clients-container table td{
+.clients-container table td,
+.proveedores-container table td{
     padding: 20px;
     text-align: center;
 }
 
 .employees-container table tr:nth-child(even),
-.clients-container table tr:nth-child(even){
+.clients-container table tr:nth-child(even),
+.proveedores-container table tr:nth-child(even){
     background-color: #001f3f;
 }
 
 .employees-container table tr:nth-child(odd),
-.clients-container table tr:nth-child(odd){
+.clients-container table tr:nth-child(odd),
+.proveedores-container table tr:nth-child(odd){
     background-color: #022337;
 }
 .employees-container table tr:hover,
-.clients-container table tr:hover{
+.clients-container table tr:hover,
+.proveedores-container table tr:hover{
     background-color: #0256ab;
 }

@@ -422,6 +422,25 @@ def insert_products():
     else:
         return "No tienes permisos para realizar esta acción"
 
+@app.route("/insert_proveedores", methods = ['POST'])
+def insert_proveedores():
+    if session and session['user_type'] == 'administrador':
+        try:
+            if request.method == 'POST':
+                nom_prov = request.form['nom_prov']
+                ap_pat_prov = request.form['ap_pat_prov']
+                ap_mat_prov = request.form['ap_mat_prov']
+                correo_prov = request.form['correo_prov']
+                tel_prov = request.form['tel_prov']
+                cur = mysql.connection.cursor()
+                cur.execute("INSERT INTO proveedores VALUES (default, %s, %s, %s, %s, %s)", (nom_prov, ap_pat_prov, ap_mat_prov, correo_prov, tel_prov))
+                mysql.connection.commit()
+                return jsonify({'modificacion_exitosa': True, 'info': "Registro completado con éxito"})
+        except Exception as e:
+            return jsonify({'modificacion_exitosa': False, 'error': str(e)})
+    else: 
+        return "No tienes permisos para realizar esta acción"
+
 @app.route("/modify_prod/<int:id>", methods = ['POST'])
 def modify_prod(id):
     if session and session['user_type'] == 'empleado':
@@ -445,10 +464,27 @@ def modify_prod(id):
                 cantidad_prod = request.form['cantidad_prod']
                 cur.execute("UPDATE productos SET id_prov = %s, foto_prod = %s, nom_prod = %s, tipo_prod = %s, precio_prod = %s, cantidad_prod = %s WHERE id_prod = %s", (id_prov, url_photo, nom_prod, tipo_prod, precio_prod, cantidad_prod, id))
                 mysql.connection.commit()
-                return jsonify({'modificacion_exitosa': True})
+                return redirect(url_for('empleados'))
         except Exception as e:
             return jsonify({'modificacion_exitosa': False, 'error': str(e)})
-        
+
+@app.route("/modify_prov/<int:id>", methods = ['POST'])
+def modify_prov(id):
+    if session and session['user_type'] == 'administrador':
+        try:
+            if request.method == 'POST':
+                nom_prov = request.form['nom_prov']
+                ap_pat_prov = request.form['ap_pat_prov']
+                ap_mat_prov = request.form['ap_mat_prov']
+                correo_prov = request.form['correo_prov']
+                tel_prov = request.form['tel_prov']
+                cur = mysql.connection.cursor()
+                cur.execute("UPDATE proveedores SET nom_prov = %s, ap_pat_prov = %s, ap_mat_prov = %s, correo_prov = %s, tel_prov = %s WHERE id_prov = %s", (nom_prov, ap_pat_prov, ap_mat_prov, correo_prov, tel_prov, id))
+                mysql.connection.commit()
+                return redirect(url_for('administradores'))
+        except Exception as e:
+            return jsonify({'modificacion_exitosa': False, 'error': str(e)})
+
 #Paginas
 @app.route("/")
 def index():
@@ -548,11 +584,14 @@ def administradores():
         if empleado[1] == '': empleado[1] = "assets/img/user.png"
     for cliente in list_clientes:
         if cliente[1] == '': cliente[1] = "assets/img/user.png"
+    cur.execute("SELECT * FROM proveedores")
+    proveedores = cur.fetchall()
     return render_template(
         "cuentaAdmins.html", 
         user = g.user, 
         empleados = list_empleados,
-        clientes = list_clientes
+        clientes = list_clientes,
+        proveedores = proveedores
     )
 
 if __name__ == '__main__':
