@@ -310,7 +310,10 @@
         <div class="products">
           {% for bebida in bebidas %}
           <div class="product bebidas">
-            <img src="{{bebida.2}}" alt="{{bebida.0}}" />
+            <img
+              src="{{url_for('static', filename=bebida.2)}}"
+              alt="{{bebida.0}}"
+            />
             <p>{{bebida.0}}</p>
             <h4>$ {{bebida.1}}</h4>
             <a href="#">Comprar</a>
@@ -332,7 +335,10 @@
         <div class="products">
           {% for dulce in dulces %}
           <div class="product dulces">
-            <img src="{{dulce.2}}" alt="{{dulce.0}}" />
+            <img
+              src="{{url_for('static', filename=dulce.2)}}"
+              alt="{{dulce.0}}"
+            />
             <p>{{dulce.0}}</p>
             <h4>$ {{dulce.1}}</h4>
             <a href="#">Comprar</a>
@@ -354,7 +360,10 @@
         <div class="products">
           {% for objeto in jarcieria %}
           <div class="product jarcieria">
-            <img src="{{objeto.2}}" alt="{{objeto.0}}" />
+            <img
+              src="{{url_for('static', filename=objeto.2)}}"
+              alt="{{objeto.0}}"
+            />
             <p>{{objeto.0}}</p>
             <h4>$ {{objeto.1}}</h4>
             <a href="#">Comprar</a>
@@ -376,7 +385,10 @@
         <div class="products">
           {% for comida in comidas %}
           <div class="product cinstantanea">
-            <img src="{{comida.2}}" alt="{{comida.0}}" />
+            <img
+              src="{{url_for('static', filename=comida.2)}}"
+              alt="{{comida.0}}"
+            />
             <p>{{comida.0}}</p>
             <h4>$ {{comida.1}}</h4>
             <a href="#">Comprar</a>
