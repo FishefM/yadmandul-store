@@ -145,6 +145,18 @@ def modify_name_admin():
     except Exception as e:
         return jsonify({'modificacion_exitosa': False, 'error': str(e)})
 
+@app.route("/modify_name_cli", methods = ['POST'])
+def modify_name_cli():
+    try:
+        if request.method == 'POST':
+            name = request.form['name']
+            cur = mysql.connection.cursor()
+            cur.execute("UPDATE clientes SET nom_cli = %s WHERE id_cli = %s", (name, session['user_id']))
+            mysql.connection.commit()
+            return jsonify({'modificacion_exitosa': True})
+    except Exception as e:
+        return jsonify({'modificacion_exitosa': False, 'error': str(e)})
+
 @app.route("/modify_appat_employee", methods = ['POST'])
 def modify_appat_employee():
     try:
@@ -169,6 +181,17 @@ def modify_appat_admin():
     except Exception as e:
         return jsonify({'modificacion_exitosa': False, 'error': str(e)})
 
+@app.route("/modify_appat_cli", methods = ['POST'])
+def modify_appat_cli():
+    try:
+        if request.method == 'POST':
+            appat = request.form['appat']
+            cur = mysql.connection.cursor()
+            cur.execute("UPDATE clientes SET ap_pat_cli = %s WHERE id_cli = %s", (appat, session['user_id']))
+            mysql.connection.commit()
+            return jsonify({'modificacion_exitosa': True})
+    except Exception as e:
+        return jsonify({'modificacion_exitosa': False, 'error': str(e)})
 
 @app.route("/modify_apmat_employee", methods = ['POST'])
 def modify_apmat_employee():
@@ -189,6 +212,18 @@ def modify_apmat_admin():
             apmat = request.form['apmat']
             cur = mysql.connection.cursor()
             cur.execute("UPDATE administradores SET ap_mat_admin = %s WHERE id_admin = %s", (apmat, session['user_id']))
+            mysql.connection.commit()
+            return jsonify({'modificacion_exitosa': True})
+    except Exception as e:
+        return jsonify({'modificacion_exitosa': False, 'error': str(e)})
+
+@app.route("/modify_apmat_cli", methods = ['POST'])
+def modify_apmat_cli():
+    try:
+        if request.method == 'POST':
+            apmat = request.form['apmat']
+            cur = mysql.connection.cursor()
+            cur.execute("UPDATE clientes SET ap_mat_cli = %s WHERE id_cli = %s", (apmat, session['user_id']))
             mysql.connection.commit()
             return jsonify({'modificacion_exitosa': True})
     except Exception as e:
@@ -223,6 +258,20 @@ def modify_correo_admin():
     except Exception as e:
         return jsonify({'modificacion_exitosa': False, 'error': str(e)})
 
+@app.route("/modify_correo_cli", methods = ['POST'])
+def modify_correo_cli():
+    try:
+        if request.method == 'POST':
+            correo = request.form['correo']
+            if not is_admin(correo) and not is_emp(correo):
+                cur = mysql.connection.cursor()
+                cur.execute("UPDATE clientes SET correo_cli = %s WHERE id_cli = %s", (correo, session['user_id']))
+                mysql.connection.commit()
+                return jsonify({'modificacion_exitosa': True})
+            else: return jsonify({'modificacion_exitosa': False, 'error': "Correo inválido"})
+    except Exception as e:
+        return jsonify({'modificacion_exitosa': False, 'error': str(e)})
+
 @app.route("/modify_password_employee", methods = ['POST'])
 def modify_password_employee():
     try:
@@ -247,6 +296,18 @@ def modify_password_admin():
     except Exception as e:
         return jsonify({'modificacion_exitosa': False, 'error': str(e)})
 
+@app.route("/modify_password_cli", methods = ['POST'])
+def modify_password_cli():
+    try:
+        if request.method == 'POST':
+            password = encrypt_password(request.form['password'])
+            cur = mysql.connection.cursor()
+            cur.execute("UPDATE clientes SET password_cli = %s WHERE id_cli = %s", (password, session['user_id']))
+            mysql.connection.commit()
+            return jsonify({'modificacion_exitosa': True})
+    except Exception as e:
+        return jsonify({'modificacion_exitosa': False, 'error': str(e)})
+
 @app.route("/upload_img_employee", methods = ['POST'])
 def upload_img_employee():
     try:
@@ -261,6 +322,25 @@ def upload_img_employee():
             file.save(url_photo)
             url_photo = 'uploads/empleados/' + unique_file
             cur.execute("UPDATE empleados SET foto_emp = %s WHERE id_emp = %s", (url_photo, session['user_id']))
+            mysql.connection.commit()
+            return jsonify({'modificacion_exitosa': True})
+    except Exception as e:
+        return jsonify({'modificacion_exitosa': False, 'error': str(e)})
+
+@app.route("/upload_img_client", methods = ['POST'])
+def upload_img_client():
+    try:
+        if request.method == 'POST':
+            cur = mysql.connection.cursor()
+            cur.execute("SELECT foto_cli FROM clientes WHERE id_cli = %s", (session['user_id'], ))
+            current_photo = cur.fetchone()
+            if current_photo[0] != '': os.remove('static/' + current_photo[0])
+            file = request.files['photo']
+            unique_file = generar_nombre_unico(file.filename)
+            url_photo = 'static/uploads/clientes/' + unique_file
+            file.save(url_photo)
+            url_photo = 'uploads/clientes/' + unique_file
+            cur.execute("UPDATE clientes SET foto_cli = %s WHERE id_cli = %s", (url_photo, session['user_id']))
             mysql.connection.commit()
             return jsonify({'modificacion_exitosa': True})
     except Exception as e:
@@ -292,7 +372,7 @@ def load_user():
 
         if user_data is not None:
             nom, ap_pat, ap_mat, fecha_nac, correo, password, foto = user_data
-            if(session['user_type'] == 'cliente' and len(nom) > 6): nom = nom[0:6]
+            #if(session['user_type'] == 'cliente' and len(nom) > 6): nom = nom[0:6]
             if(foto == ''): foto = 'assets/img/user.png'
             user = {
                 "name": nom,
@@ -546,7 +626,7 @@ def empleados():
             return redirect(url_for('index'))
         elif session['user_type'] == 'administrador':
             return redirect(url_for('administradores'))
-    
+    else: return redirect(url_for('index'))
     cur = mysql.connection.cursor()
     cur.execute("SELECT id_prod, id_prov, foto_prod, nom_prod, tipo_prod, precio_prod, cantidad_prod, estado_prod FROM productos")
     productos = cur.fetchall()
@@ -573,6 +653,7 @@ def administradores():
             return redirect(url_for('index'))
         elif session['user_type'] == 'empleado':
             return redirect(url_for("empleados"))
+    else: return redirect(url_for('index'))
     cur = mysql.connection.cursor()
     cur.execute("SELECT id_emp, foto_emp, CONCAT(nom_emp, ' ', ap_pat_emp, ' ', ap_mat_emp) as 'Nombre completo', fec_nac_emp, correo_emp, estado_emp FROM empleados")
     empleados = cur.fetchall()
@@ -594,5 +675,19 @@ def administradores():
         proveedores = proveedores
     )
 
+@app.route('/cuenta')
+def cuenta():
+    if session:
+        # if session['user_type'] == 'cliente' or session['user_type'] == 'empleado':
+        #     return 'Tu no deberias de estar aqui My friend'
+        if session['user_type'] == 'administrador':
+            return redirect(url_for('administradores'))
+        elif session['user_type'] == 'empleado':
+            return redirect(url_for("empleados"))
+    else: return redirect(url_for('index'))
+    return render_template(
+        "cuenta.html",
+        user = g.user
+    )
 if __name__ == '__main__':
     app.run(debug=True) # Inicia el servidor web en modo debug

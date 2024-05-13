@@ -3,18 +3,69 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>[USER] | Yadmandul store</title>
-    <link rel="stylesheet" type="text/css" href="./css/inicioSesion.css" />
-    <link rel="icon" href="./assets/img/logo_definitivo.png" type="image/png" />
-    <link rel="stylesheet" href="./css/style.css" />
-    <link rel="stylesheet" href="./css/stylesCuenta.css" />
+    <title>Mi perfil | Yadmandul store</title>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{{url_for('static', filename='css/inicioSesion.css')}}"
+    />
+    <link
+      rel="icon"
+      href="{{url_for('static', filename='assets/img/logo_definitivo.png')}}"
+      type="image/png"
+    />
+    <link
+      rel="stylesheet"
+      href="{{url_for('static', filename='css/style.css')}}"
+    />
+    <link
+      rel="stylesheet"
+      href="{{url_for('static', filename='css/stylesCuenta.css')}}"
+    />
     <script
       src="https://kit.fontawesome.com/ecae724dfb.js"
       crossorigin="anonymous"
     ></script>
   </head>
   <body>
-    <header></header>
+    <div class="aviso-exito">
+      <h1>Aviso</h1>
+      <p>Modificación completada con éxito</p>
+      <a id="close-aviso-exito">Cerrar</a>
+    </div>
+    <div class="aviso-fracaso">
+      <h1>Aviso</h1>
+      <p>Error para completar la modificación</p>
+      <a id="close-aviso-fracaso">Cerrar</a>
+    </div>
+    <header>
+      <div class="title-container">
+        <a href="#"
+          ><img
+            src="{{url_for('static', filename='assets/img/logo_definitivo.png')}}"
+            alt="logo"
+        /></a>
+      </div>
+      <p style="color: white; font-size: 2em">
+        CLIENTE {{user.name}} | Yadmandul store
+      </p>
+      <nav>
+        <ul>
+          <li>
+            <a href="/">
+              <i class="fa-solid fa-right-from-bracket"></i
+              >&nbsp;&nbsp;&nbsp;Inicio
+            </a>
+          </li>
+          <li>
+            <a href="/logout">
+              <i class="fa-solid fa-right-from-bracket"></i
+              >&nbsp;&nbsp;&nbsp;Cerrar sesión
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </header>
     <aside>
       <nav>
         <ul>
@@ -45,48 +96,89 @@
     </aside>
     <main>
       <div class="user-data">
-        <img src="./assets/img/user.png" alt="[USER]" /><br />
-        <input type="file" accept="image/*" />
-        <button id="btn-change-photo">Cambiar foto</button>
-        <h2>[USER]</h2>
-        <h3>[EMAIL]</h3>
+        <img
+          src="{{url_for('static', filename=user.photo)}}"
+          alt="{{user.name}}"
+        /><br />
+        <form
+          action="/upload_img_client"
+          ,
+          method="POST"
+          ,
+          id="form-modify_photo_client"
+        >
+          <input type="file" accept="image/*" name="photo" />
+          <input type="submit" value="Cambiar foto" id="btn-change-photo" />
+        </form>
+        <h2>{{user.name}}</h2>
+        <h3>{{user.correo}}</h3>
         <div class="user-modify-data">
-          <div class="name-container">
-            <h4>
-              <i class="fa-solid fa-signature"></i>&nbsp;&nbsp;&nbsp;Nombre
-            </h4>
-            <input type="text" placeholder="[NAME]" />
-            <button>Modificar</button>
-          </div>
-          <div class="name-container">
-            <h4>
-              <i class="fa-solid fa-signature"></i>&nbsp;&nbsp;&nbsp;Apellido
-              paterno
-            </h4>
-            <input type="text" placeholder="[APPAT]" />
-            <button>Modificar</button>
-          </div>
-          <div class="name-container">
-            <h4>
-              <i class="fa-solid fa-signature"></i>&nbsp;&nbsp;&nbsp;Apellido
-              materno
-            </h4>
-            <input type="text" placeholder="[APMAT]" />
-            <button>Modificar</button>
-          </div>
-          <div class="name-container">
-            <h4>
-              <i class="fa-solid fa-envelope"></i>&nbsp;&nbsp;&nbsp;Correo
-              electrónico
-            </h4>
-            <input type="email" placeholder="[EMAIL]" />
-            <button>Modificar</button>
-          </div>
-          <div class="name-container">
-            <h4><i class="fa-solid fa-key"></i>&nbsp;&nbsp;&nbsp;Password</h4>
-            <input type="password" placeholder="[PASSWD]" />
-            <button>Modificar</button>
-          </div>
+          <form
+            action="/modify_name_cli"
+            method="POST"
+            id="form-modify_name_cli"
+          >
+            <div class="name-container">
+              <h4>
+                <i class="fa-solid fa-signature"></i>&nbsp;&nbsp;&nbsp;Nombre
+              </h4>
+              <input type="text" placeholder="{{user.name}}" name="name" />
+              <input type="submit" value="Modificar" />
+            </div>
+          </form>
+          <form
+            action="/modify_appat_cli"
+            method="POST"
+            id="form-modify_appat_cli"
+          >
+            <div class="name-container">
+              <h4>
+                <i class="fa-solid fa-signature"></i>&nbsp;&nbsp;&nbsp;Apellido
+                paterno
+              </h4>
+              <input type="text" placeholder="{{user.ap_pat}}" name="appat" />
+              <input type="submit" value="Modificar" />
+            </div>
+          </form>
+          <form
+            action="/modify_apmat_cli"
+            method="POST"
+            id="form-modify_apmat_cli"
+          >
+            <div class="name-container">
+              <h4>
+                <i class="fa-solid fa-signature"></i>&nbsp;&nbsp;&nbsp;Apellido
+                materno
+              </h4>
+              <input type="text" placeholder="{{user.ap_mat}}" name="apmat" />
+              <button>Modificar</button>
+            </div>
+          </form>
+          <form
+            action="/modify_correo_cli"
+            method="POST"
+            id="form-modify_correo_cli"
+          >
+            <div class="name-container">
+              <h4>
+                <i class="fa-solid fa-envelope"></i>&nbsp;&nbsp;&nbsp;Correo
+                electrónico
+              </h4>
+              <input type="email" placeholder="{{user.correo}}" name="correo" />
+              <input type="submit" value="Modificar" />
+            </div>
+          </form>
+          <form
+            action="/modify_password_cli"
+            mehod="POST"
+            id="form-modify_password_cli"
+          >
+            <div class="name-container">
+              <h4><i class="fa-solid fa-key"></i>&nbsp;&nbsp;&nbsp;Password</h4>
+              <input type="password" name="password" />
+              <input type="submit" value="Modificar" />
+            </div>
+          </form>
         </div>
       </div>
       <div class="purchases-container" style="display: none">
@@ -230,8 +322,7 @@
       </div>
     </main>
     <footer></footer>
-    <script src="./js/scriptHeaderFooter.js"></script>
-    <script src="./js/scriptFotoPerfil.js"></script>
+    <script src="{{url_for('static', filename='js/scriptFotoPerfil.js')}}"></script>
     <script>
       const $btnProfile = document.getElementById("btn-profile");
       const $btnPurchases = document.getElementById("btn-purchases");
@@ -295,5 +386,9 @@
         $ordersContainer.style.display = "block";
       });
     </script>
+    <script
+      src="{{url_for('static', filename='js/main_modify_client.js')}}"
+      type="module"
+    ></script>
   </body>
 </html>

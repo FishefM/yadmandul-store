@@ -30,3 +30,8 @@ section {
     font-size: 3em;
     margin-top: -70px;
 }
+
+.aviso-exito,
+.aviso-fracaso {
+    top: 10%;
+}

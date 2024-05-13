@@ -433,5 +433,9 @@
     ></script>
     <script src="{{url_for('static', filename='js/scriptFooter.js')}}"></script>
     <script src="{{url_for('static', filename='js/cards_index.js')}}"></script>
+    <script>
+      let userP = document.querySelector(".user p");
+      userP.textContent = userP.textContent.substring(0, 8);
+    </script>
   </body>
 </html>
