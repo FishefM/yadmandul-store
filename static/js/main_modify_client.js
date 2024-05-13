@@ -7,4 +7,5 @@ document.addEventListener("DOMContentLoaded", () => {
   modify("form-modify_apmat_cli", "/modify_apmat_cli");
   modify("form-modify_correo_cli", "/modify_correo_cli");
   modify("form-modify_password_cli", "/modify_password_cli");
+  modify("form-modify_fechanac_cli", "/modify_fechanac_cli");
 });

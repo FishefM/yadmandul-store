@@ -8,4 +8,5 @@ document.addEventListener("DOMContentLoaded", () => {
   modify("form-modify_password_employee", "/modify_password_employee");
   modify("form-modify_photo_employee", "/upload_img_employee");
   modify("form-insert_products", "/insert_products");
+  modify("form-modify_fechanac_employee", "/modify_fechanac_employee");
 });

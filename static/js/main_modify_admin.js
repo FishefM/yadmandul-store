@@ -8,4 +8,5 @@ document.addEventListener("DOMContentLoaded", () => {
   modify("form-modify_correo_admin", "/modify_correo_admin");
   modify("form-modify_password_admin", "/modify_password_admin");
   modify("form-insert_proveedores", "/insert_proveedores");
+  modify("form-modify_fechanac_admin", "/modify_fechanac_admin");
 });

@@ -229,6 +229,42 @@ def modify_apmat_cli():
     except Exception as e:
         return jsonify({'modificacion_exitosa': False, 'error': str(e)})
 
+@app.route("/modify_fechanac_employee", methods = ['POST'])
+def modify_fechanac_employee():
+    try:
+        if request.method == 'POST':
+            fechanac = request.form['fechanac']
+            cur = mysql.connection.cursor()
+            cur.execute("UPDATE empleados SET fec_nac_emp = %s WHERE id_emp = %s", (fechanac, session['user_id']))
+            mysql.connection.commit()
+            return jsonify({'modificacion_exitosa': True})
+    except Exception as e:
+        return jsonify({'modificacion_exitosa': False, 'error': str(e)})
+
+@app.route("/modify_fechanac_admin", methods = ['POST'])
+def modify_fechanac_admin():
+    try:
+        if request.method == 'POST':
+            fechanac = request.form['fechanac']
+            cur = mysql.connection.cursor()
+            cur.execute("UPDATE administradores SET fec_nac_admin = %s WHERE id_admin = %s", (fechanac, session['user_id']))
+            mysql.connection.commit()
+            return jsonify({'modificacion_exitosa': True})
+    except Exception as e:
+        return jsonify({'modificacion_exitosa': False, 'error': str(e)})
+
+@app.route("/modify_fechanac_cli", methods = ['POST'])
+def modify_fechanac_cli():
+    try:
+        if request.method == 'POST':
+            fechanac = request.form['fechanac']
+            cur = mysql.connection.cursor()
+            cur.execute("UPDATE clientes SET fecha_nac_cli = %s WHERE id_cli = %s", (fechanac, session['user_id']))
+            mysql.connection.commit()
+            return jsonify({'modificacion_exitosa': True})
+    except Exception as e:
+        return jsonify({'modificacion_exitosa': False, 'error': str(e)})
+
 @app.route("/modify_correo_employee", methods = ['POST'])
 def modify_correo_employee():
     try:

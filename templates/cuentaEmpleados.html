@@ -175,6 +175,21 @@
             </div>
           </form>
           <form
+            action="/modify_fechanac_employee"
+            method="POST"
+            id="form-modify_fechanac_employee"
+          >
+            <div class="name-container">
+              <h4>
+                <i class="fa-solid fa-signature"></i>&nbsp;&nbsp;&nbsp;Fecha de
+                nacimiento
+              </h4>
+              <p>Fecha registrada: {{user.fecha_nac}}</p>
+              <input type="date" name="fechanac" />
+              <input type="submit" value="Modificar" />
+            </div>
+          </form>
+          <form
             action="/modify_correo_employee"
             ,
             method="POST"
