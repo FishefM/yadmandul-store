@@ -1,5 +1,9 @@
-.title-container {
-    margin-left: 40px;
+header{
+    align-items: center;
+    background-color: #001f3f00;
+}
+footer {
+    background-color: #001f3f;
 }
 
 body {
@@ -8,10 +12,123 @@ body {
     position: relative;
     height: 100%;
 }
-header,
-footer {
-    background-color: #001f3f;
+
+.container {
+    margin: 0 auto;
+    background-color: #001f3fFF;
 }
+
+.yadmandul {
+    display: flex;
+    font-size: 1.7em;
+    font-weight: 400;
+    color: white;
+    align-items: center;
+}
+.back {
+    padding: 35px 0;
+}
+.menu{
+    position: absolute;
+    top: 0;
+    left:0;
+    right: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    z-index: 1000;
+}
+
+.logo {
+    margin: 0px 15px;
+    width: 70px;
+}
+
+.menu .navbar ul li {
+    position: relative;
+    float: left;
+}
+
+.menu .navbar ul li a{
+    text-align: center;
+    max-height: 70px;
+    font-size: 18px;
+    padding: 20px;
+    color: white;
+    display: flex;
+}
+
+#menu {
+    display: none;
+}
+
+.icono{
+    font-size: 30px;
+    color: white;
+    padding-left: 10px;
+}
+
+.menu label {
+    cursor: pointer;
+    display: none;
+}
+
+@media(max-width:991px){
+    .menu{
+        padding: 10px;
+
+    }
+    .menu label {
+        display: initial;
+        
+    }
+    .back {
+        padding: 47px 0;
+    }
+    .menu .navbar {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background-color: #001f3fFF;
+        backdrop-filter: blur(15px);
+        display: none;
+    }
+    .menu .navbar ul li {
+        width: 100%;
+        align-items: start;
+        
+    }
+    .menu .navbar ul li a
+    {
+        text-align: start;
+    }
+    #menu:checked~ .navbar{
+        display: initial;
+
+    }
+
+    #menu:checked~ header{
+        backdrop-filter: blur(15px);
+    }
+}
+.user {
+    display: flex;
+
+
+}
+
+.user-name {
+    padding: 10px, 10px;
+}
+
+.user #img-user{
+    width: 30px; 
+    height: 30px; 
+} 
+
+
+
 main {
     padding-left: 50px;
     padding-right: 50px;
