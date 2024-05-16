@@ -1,5 +1,5 @@
 from app.db import obtener_conexion
-from flask import render_template, Blueprint
+from flask import render_template, Blueprint,g
 
 
 
@@ -31,7 +31,7 @@ def goToIndex():
         dulces = dulces, 
         jarcieria = jarcieria,
         comidas = comidas,
-        user = "g.user"
+        user = g.user
     )
 
 

@@ -123,8 +123,8 @@ body {
 }
 
 .user #img-user{
-    width: 30px; 
-    height: 30px; 
+    min-width: 30px; 
+    min-height: 30px; 
 } 
 
 

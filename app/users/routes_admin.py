@@ -85,10 +85,10 @@ def upload_img_admin():
                 cur.execute("SELECT foto_admin FROM administradores WHERE id_admin = %s", (session['user_id'], ))
                 current_photo = cur.fetchone()
             conexion.close()
-            if current_photo[0] != '': os.remove('static/' + current_photo[0])
+            if current_photo[0] != '': os.remove('app/static/' + current_photo[0])
             file = request.files['photo']
             unique_file = generar_nombre_unico(file.filename)
-            url_photo = 'static/uploads/admins/' + unique_file
+            url_photo = 'app/static/uploads/admins/' + unique_file
             file.save(url_photo)
             url_photo = 'uploads/admins/' + unique_file
             conexion = obtener_conexion()

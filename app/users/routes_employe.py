@@ -47,9 +47,9 @@ def modify_prod(id):
                 conexion.close()
                 file = request.files['foto_prod']
                 if file.filename != '':
-                    if current_photo[0] != '': os.remove('static/' + current_photo[0])
+                    if current_photo[0] != '': os.remove('app/static/' + current_photo[0])
                     unique_file = generar_nombre_unico(file.filename)
-                    url_photo = 'static/uploads/img_products/' + unique_file
+                    url_photo = 'app/static/uploads/img_products/' + unique_file
                     file.save(url_photo)
                     url_photo = 'uploads/img_products/' + unique_file
                 else: url_photo = current_photo[0]
@@ -77,7 +77,7 @@ def insert_products():
                 id_prov = request.form['id_prov']
                 file = request.files['foto_prod']
                 unique_file = generar_nombre_unico(file.filename)
-                url_photo = 'static/uploads/img_products/' + unique_file
+                url_photo = 'app/static/uploads/img_products/' + unique_file
                 file.save(url_photo)
                 url_photo = 'uploads/img_products/' + unique_file
                 conexion = obtener_conexion()
@@ -123,10 +123,10 @@ def upload_img_employee():
                 cur.execute("SELECT foto_emp FROM empleados WHERE id_emp = %s", (session['user_id'], ))
                 current_photo = cur.fetchone()
             conexion.close()
-            if current_photo[0] != '': os.remove('static/' + current_photo[0])
+            if current_photo[0] != '': os.remove('app/static/' + current_photo[0])
             file = request.files['photo']
             unique_file = generar_nombre_unico(file.filename)
-            url_photo = 'static/uploads/empleados/' + unique_file
+            url_photo = 'app/static/uploads/empleados/' + unique_file
             file.save(url_photo)
             url_photo = 'uploads/empleados/' + unique_file
             conexion = obtener_conexion()

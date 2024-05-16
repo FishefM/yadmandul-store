@@ -97,10 +97,9 @@
           alt="{{user.name}}"
         /><br />
         <form
+          enctype="multipart/form-data"
           action="/upload_img_admin"
-          ,
           method="POST"
-          ,
           id="form-modify_photo_admin"
         >
           <input type="file" accept="image/*" name="photo" />

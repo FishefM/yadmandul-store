@@ -117,10 +117,9 @@
           alt="{{user.name}}"
         /><br />
         <form
+          enctype="multipart/form-data"
           action="/upload_img_employee"
-          ,
           method="POST"
-          ,
           id="form-modify_photo_employee"
         >
           <input type="file" accept="image/*" name="photo" />
@@ -143,10 +142,9 @@
             </div>
           </form>
           <form
+            enctype="multipart/form-data"
             action="/modify_appat_employee"
-            ,
             method="POST"
-            ,
             id="form-modify_appat_employee"
           >
             <div class="name-container">
@@ -248,7 +246,7 @@
         <!--Productos-->
         <h1>Productos</h1>
         <h2>Registro de productos</h2>
-        <form action="/insert_products" method="POST" id="form-insert_products">
+        <form action="/insert_products" method="POST" id="form-insert_products" enctype="multipart/form-data">
           <label>Nombre del producto</label>
           <input type="text" name="nom_prod" required /><br />
           <label>Tipo</label>
@@ -306,11 +304,11 @@
             data-nombre-prod="{{ producto.3 }}"
           >
             <form
+              enctype="multipart/form-data"
               action="{{url_for('employee.modify_prod', id=producto.0)}}"
               method="POST"
               id="form-modify_prod"
               data-id="{{producto.0}}"
-              enctype="multipart/form-data"
             >
               <td>{{producto.0}}</td>
               <td>
@@ -332,6 +330,7 @@
                   accept="image/*"
                   name="foto_prod"
                   id="#change-photo"
+                  required
                 />
               </td>
               <td>

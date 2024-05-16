@@ -61,10 +61,10 @@ def upload_img_client():
                 cur.execute("SELECT foto_cli FROM clientes WHERE id_cli = %s", (session['user_id'], ))
                 current_photo = cur.fetchone()
             conexion.close()
-            if current_photo[0] != '': os.remove('static/' + current_photo[0])
+            if current_photo[0] != '': os.remove('app/static/' + current_photo[0])
             file = request.files['photo']
             unique_file = generar_nombre_unico(file.filename)
-            url_photo = 'static/uploads/clientes/' + unique_file
+            url_photo = 'app/static/uploads/clientes/' + unique_file
             file.save(url_photo)
             url_photo = 'uploads/clientes/' + unique_file
             conexion = obtener_conexion()
@@ -79,12 +79,13 @@ def upload_img_client():
 @user.route("/modify_password_cli", methods = ['POST'])
 def modify_password_cli():
     try:
-        if request.method == 'POST':
+        if  request.method == 'POST':
             password = encrypt_password(request.form['password'])
             conexion = obtener_conexion()
             with conexion.cursor() as cur:
                 cur.execute("UPDATE clientes SET password_cli = %s WHERE id_cli = %s", (password, session['user_id']))
             conexion.commit()
+            conexion.close()
             return jsonify({'modificacion_exitosa': True})
     except Exception as e:
         return jsonify({'modificacion_exitosa': False, 'error': str(e)})

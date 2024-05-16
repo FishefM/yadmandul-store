@@ -21,9 +21,9 @@
                     <a href="/cuenta" class="user">
                     <img
                     src="{{url_for('static', filename=user.photo)}}"
-                    alt="User"
+                    alt="user.name"
                     id="img-user"
-                  /><span class="user-name">&nbsp;&nbsp;&nbsp;[USER]</span></a>
+                  /><span class="user-name">&nbsp;&nbsp;&nbsp;{{user.name}}</span></a>
                   {% else %}
                   <a href="{{ url_for('inicio_sesion') }}" class="user">
                     <img
